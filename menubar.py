@@ -1,38 +1,36 @@
-from datetime import datetime
-
+import datetime
+import time
 import rumps
 
-
-class HelloApp(rumps.App):
-    @rumps.clicked("Start Timer!")
-    def timer(self, _):
-        # 一定時間ごとに処理を実行するタイマー
-
-        count = 0
-
-        # callback関数は引数にTimerオブジェクトをとる
-        def counter(t):
-            nonlocal count
-            count += 1
-            print(count)
-            if count >= 10:
-                # print("Stop Timer!")
-                self.notification()
-                t.stop()
-
-        # タイマーオブジェクト
-        # 一定時間ごとにcallbackを呼び出す
-        timer = rumps.Timer(callback=counter, interval=1)
-        timer.start()
 
 class GetData():
     def getData():
         data=datetime.datetime.now()
-        print(data)
+        exec_time = datetime.datetime(2023,1,13,17,6,30,0)
+        print('現在時刻：' , data)
+        print('実行時間：' , exec_time , 'まで待機します。')
+        sleep_time = exec_time - data
+        time.sleep(sleep_time.total_seconds())
+
+        tuuti()
+
+        print('実行時間になりました！')
+        print('現在時刻：' , datetime.datetime.now())
+        
+        # print(data)
         # return data
 
+def tuuti():
+    show_text = f"現在時刻は[{datetime.datetime.now()}]です"
+    rumps.notification(     #通知
+        "Helloタイトル",#タイトル
+        "Hello world",
+        show_text,
+        # icon="fois.png",
+    )
+
 if __name__ == "__main__":
-    get = GetData()
+    get = GetData
     get.getData()
-    # print(get.getData())
-    HelloApp("HelloApp", icon="icon/fois.png", quit_button="終了").run()
+
+    # GetData.getData()
