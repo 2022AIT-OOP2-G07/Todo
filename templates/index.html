@@ -20,9 +20,13 @@
             <input type="datetime-local" id="limit" name="time">
         </div>
         <div>
-            <button type="submit" id="search-submit" formmethod="get">追加</button>
+            <button type="submit" id="add-submit" formmethod="get">追加</button>
         </div>
     </form>
+
+    <div id="message-container" role="alert" style="display: none;"></div>
+            <div id="error-container" role="alert" style="display: none;"></div>
+            <h2>{{ result_message }}</h2>
 
     <div>
         <table>
