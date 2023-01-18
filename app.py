@@ -43,6 +43,19 @@ def todo_db():
 
     return render_template('index.html', data = data)
 
+@app.route('/register_done', methods=['POST'])
+def register_done2():
+   
+   # htmlで入力したデータの取得
+    add_id = request.form.get('todo', None)
+    print(add_id)
+
+    if not add_id:
+        # checked_idがない場合はエラーを返す
+        return jsonify({'result': 'error', 'message': 'データが正しく受け取れませんでした'})     # JSON形式でエラーである旨をJSに返す
+    else:
+        return jsonify({'result': 'ok', 'message': 'いったんpythonにデータ渡せた！'})
+
 
 # checkが押されている項目の削除
 @app.route('/register_done', methods=['POST'])
