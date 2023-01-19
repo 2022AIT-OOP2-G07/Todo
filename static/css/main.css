@@ -58,9 +58,13 @@ button#add-submit{
     width: 80px;
     height: 30px;
     color: #fff;
+    background-color: #000;
+    border: 2px solid #000;
+    border-radius: 0.67em;
+}
+button#add-submit:hover{
     background-color: #00bcad;
     border: 2px solid #00bcad;
-    border-radius: 0.67em;
 }
 
 div#message-container{
@@ -69,4 +73,8 @@ div#message-container{
 
 input[type="checkbox"]{
     color: #00bcad;
+}
+
+*{
+    font-family:"ヒラギノ丸ゴ Pro W4","ヒラギノ丸ゴ Pro","Hiragino Maru Gothic Pro";
 }
