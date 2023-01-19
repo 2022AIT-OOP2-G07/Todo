@@ -7,4 +7,4 @@ class HelloApp(rumps.App):
     pass
 
 if __name__ == "__main__":
-    HelloApp("HelloApp", icon="icon/fois.png", quit_button="終了").run()
+    HelloApp("HelloApp", icon="img/icon/fois.png", quit_button="終了").run()
