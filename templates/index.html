@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="../img/favicon/icon.ico">
+    <link rel="apple-touch-icon" href="../img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="../img/favicon/android-chrome-192x192.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+
+    <script defer src="{{ url_for('static', filename='todo.js') }}"></script>
+</head>
+<body>
+    <header>
+        <h1>To Do List!</h1>
+    </header>
+    <form id="schedule" action='/register_done'>
+        <div>
+            <input type="text" id="todo" placeholder="予定を入力" name="todo">
+        </div>
+        <div>
+            <input type="datetime-local" id="limit" name="time">
+        </div>
+        <div>
+            <button type="submit" id="add-submit" formmethod="get">追加</button>
+        </div>
+    </form>
+
+    <div id="message-container" role="alert" style="display: none;"></div>
+            <div id="error-container" role="alert" style="display: none;"></div>
+            <h2>{{ result_message }}</h2>
+
+    <div>
+        <table>
+            <thead></thead>
+            
+            <tbody>
+                {% set count = 0 %}
+                {% for item in data %}
+                {% set count = count + 1 %}
+                    <tr id="todo_row_id-{{item[0]}}">
+                        <th>{{item[0]}}</th>
+                        <th>{{item[1]}}</th>
+                        <th>{{item[2]}}</th>
+                        <th>{{item[3]}}</th>
+                        <th>{{item[4]}}</th>
+                        <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
+
+                    </tr>
+               
+                
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
