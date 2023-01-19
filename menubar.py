@@ -1,11 +1,15 @@
 import datetime
 import time
 import rumps
+import sqlite3
 
 
 class MenuBar(rumps.App):
     def __init__(self):
-        super(MenuBar, self).__init__(name="メニューバーtodo",title="",icon=None)
+        con = sqlite3.connect('todo_list.db')
+        cur = con.execute("SELECT * FROM todo")
+        super(MenuBar, self).__init__(name="メニューバーtodo",title="cur[0][1]",icon=None)
+        cur.close()
 
     @rumps.clicked("通知オン")
     def reload(self, _):
