@@ -8,8 +8,10 @@ class MenuBar(rumps.App):
     def __init__(self):
         con = sqlite3.connect('todo_list.db')
         cur = con.execute("SELECT * FROM todo")
-        super(MenuBar, self).__init__(name="メニューバーtodo",title="cur[0][1]",icon=None)
+        # print(cur.fetchall()[0][1])
+        super(MenuBar, self).__init__(name="メニューバーtodo",title=cur.fetchall()[0][1],icon=None)
         cur.close()
+        con.close()
 
     @rumps.clicked("通知オン")
     def reload(self, _):
