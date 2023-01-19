@@ -6,6 +6,7 @@
     <link rel="shortcut icon" href="../img/favicon/icon.ico">
     <link rel="apple-touch-icon" href="../img/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="../img/favicon/android-chrome-192x192.png">
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do List</title>
 
@@ -13,7 +14,8 @@
 </head>
 <body>
     <header>
-        <h1>To Do List!</h1>
+        <img src="../img/logo/ver01.svg" alt="✅" id="logomark">
+        <img src="../img/logo/ver02.svg" alt="✅" id="logoword">
     </header>
     <form id="schedule" action='/register_done'>
         <div>
@@ -32,21 +34,24 @@
             <h2>{{ result_message }}</h2>
 
     <div>
-        <table>
-            <thead></thead>
+        <table id="todo_table">
+            <thead>
+                <tr>
+                    <th>予定</th>
+                    <th>期限</th>
+                    <th>完了</th>
+                </tr>
+            </thead>
             
             <tbody>
                 {% set count = 0 %}
                 {% for item in data %}
                 {% set count = count + 1 %}
                     <tr id="todo_row_id-{{item[0]}}">
-                        <th>{{item[0]}}</th>
-                        <th>{{item[1]}}</th>
-                        <th>{{item[2]}}</th>
-                        <th>{{item[3]}}</th>
-                        <th>{{item[4]}}</th>
-                        <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
-
+                        <td>{{item[1]}}</td>
+                        <td>{{item[3]}}</td>
+                        <td>{{item[4]}}</td>
+                        <td><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></td>
                     </tr>
                
                 

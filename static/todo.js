@@ -1,42 +1,47 @@
+const done_action = (ev) => {
+    console.log(ev)
+    elm = ev.srcElement // チェックボックスをeventから再取得
+
+    // チェックボックスの値が変更されたときに実行される
+    
+    console.log(elm)
+    console.log(elm.checked)
+    console.log(elm.value)
+    if (elm.checked) {
+        // flaskへ送信するデータを用意する
+        const postdata = new FormData()
+        postdata.append("checked_id", elm.value) // チェックした行のIDを設定
+
+        // fetch
+        // "/register_done" としてタスクをこなしたことを登録する。
+        // この変更は、flask側(app.py)の処理も変更しています。
+        fetch('/register_done', {
+            method: 'POST',
+            body: postdata  // IDデータが入ったFormDataを送信
+        }).then((response) => {
+            // 正常にHTTPリクエストが通った
+            console.log(response)
+
+            // レスポンスデータからJSONを取り出し
+            response.json().then((data) => {
+                console.log(data) // 取得されたレスポンスデータをデバッグ表示
+                
+                // 正常にタスクを完了できているかを確認
+                if (data.result !== "ok") {
+                    window.alert(data.message) // エラー表示
+                } else {
+                    // タスクを完了できたら、チェックされた行を消す
+                    document.querySelector(`#todo_row_id-${ elm.value }`).remove()
+                }
+            })
+        })
+    }
+}
+
 
 
 document.querySelectorAll("input[id^=fav-]").forEach((elm) => {
-    elm.addEventListener('change', (ev) => {
-        // チェックボックスの値が変更されたときに実行される
-        
-        console.log(elm)
-        console.log(elm.checked)
-        console.log(elm.value)
-        if (elm.checked) {
-            // flaskへ送信するデータを用意する
-            const postdata = new FormData()
-            postdata.append("checked_id", elm.value) // チェックした行のIDを設定
-
-            // fetch
-            // "/register_done" としてタスクをこなしたことを登録する。
-            // この変更は、flask側(app.py)の処理も変更しています。
-            fetch('/register_done', {
-                method: 'POST',
-                body: postdata  // IDデータが入ったFormDataを送信
-            }).then((response) => {
-                // 正常にHTTPリクエストが通った
-                console.log(response)
-
-                // レスポンスデータからJSONを取り出し
-                response.json().then((data) => {
-                    console.log(data) // 取得されたレスポンスデータをデバッグ表示
-                    
-                    // 正常にタスクを完了できているかを確認
-                    if (data.result !== "ok") {
-                        window.alert(data.message) // エラー表示
-                    } else {
-                        // タスクを完了できたら、チェックされた行を消す
-                        document.querySelector(`#todo_row_id-${ elm.value }`).remove()
-                    }
-                })
-            })
-        }
-    })
+    elm.addEventListener('change', done_action)
 })
 
 document.getElementById("add-submit").addEventListener("click", async (ev) => {
@@ -74,7 +79,7 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
     console.log(param)
     //console.log(param.limit)
 
-    fetch('/register_done', {
+    fetch('/add_todo', {
         method: 'POST',
         body: param,
     }).then((response) => {
@@ -100,8 +105,76 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
             } else {
                 // タスクを完了できたら、チェックされた行を消す
                 window.alert(data.message)
+
+
+                // data を再表示
+                show_data(data.data)
             }
         })
         
     })
 })
+
+
+// データ表示を関数化
+const show_data = (data) => {
+    // データを表示させる
+    const tableBody = document.querySelector("#todo_table > tbody")
+    tableBody.innerHTML = ""
+
+    // レスポンスのJSONデータの件数が0だった場合
+    if (data && data.length == 0) {
+        let tr = document.createElement('tr')
+        tr.innerHTML = "表示するデータがありません。"
+        tableBody.appendChild(tr)
+        return
+    }
+
+    data.forEach(elm => {
+        /* 
+        <tr id="todo_row_id-{{item[0]}}">
+            <th>{{item[0]}}</th>
+            <th>{{item[1]}}</th>
+            <th>{{item[2]}}</th>
+            <th>{{item[3]}}</th>
+            <th>{{item[4]}}</th>
+            <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
+        </tr>
+        */
+        let tr = document.createElement('tr')
+        tr.id = `todo_row_id-${elm[0]}`
+        // id
+        let td = document.createElement('td')
+        td.textContent = elm[0]
+        tr.appendChild(td)
+        // task_name
+        td = document.createElement('td')
+        td.textContent = elm[1]
+        tr.appendChild(td)
+        td = document.createElement('td')
+        td.textContent = elm[2]
+        tr.appendChild(td)
+        td = document.createElement('td')
+        td.textContent = elm[3]
+        tr.appendChild(td)
+        td = document.createElement('td')
+        //td.textContent = elm[4]
+        //tr.appendChild(td)
+
+        // <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
+        td = document.createElement('td')
+        let cb = document.createElement('input')
+        cb.setAttribute('type','checkbox')
+        cb.setAttribute('id', `fav-${elm[0]}`)
+        cb.setAttribute('name',`fav-${elm[0]}`)
+        cb.setAttribute('value',`${elm[0]}`)
+        // チェックがされた時の処理を追加
+        cb.addEventListener('change', done_action)
+
+        td.appendChild(cb)
+        tr.appendChild(td)
+
+        // 1行分をtableタグ内のtbodyへ追加する
+        tableBody.appendChild(tr)
+    })
+}
