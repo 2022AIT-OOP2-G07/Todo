@@ -33,6 +33,8 @@ def todo_db():
         print(row)
         print(type(row))
 
+    # cur = con.execute("SELECT * FROM todo")
+
     cur = con.execute("select * from todo where check_data <> 1 order by todo_deadline")
     data = cur.fetchall()
     cur.close()
@@ -51,6 +53,9 @@ def add_todo():
    # javascriptでフェッチして得たデータの取得
     add_todo = request.form.get('todo', None)
     print(add_todo)
+    if len(add_todo) > 30:
+        return jsonify({'result': 'error', 'message': '⚠️予定の文字数は30字以内でお願いします'}) 
+
     add_limit = request.form.get('limit', None)
     print(add_limit)
 
