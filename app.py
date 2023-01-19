@@ -33,7 +33,7 @@ def todo_db():
         print(row)
         print(type(row))
 
-    cur = con.execute("select * from todo where check_data <> 1 order by id")
+    cur = con.execute("select * from todo where check_data <> 1 order by todo_deadline")
     data = cur.fetchall()
     cur.close()
 
@@ -106,7 +106,7 @@ def add_todo():
             print(row)
             print(type(row))
 
-        cur = con.execute("select * from todo where check_data <> 1 order by id")
+        cur = con.execute("select * from todo where check_data <> 1 order by todo_deadline")
         data = cur.fetchall()
         cur.close()
 
