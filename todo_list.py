@@ -18,9 +18,10 @@ con = sqlite3.connect('todo_list.db')
 # con.commit()
 # ４．データ参照
 cur = con.execute("SELECT * FROM todo")
-for row in cur:
-    print(row[1])
-    print(type(row[1]))
+# for row in cur:
+#     print(row[1])
+#     print(type(row[1]))
+print(cur[0])
 cur.close()
 
 # 6．テーブル削除
