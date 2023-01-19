@@ -3,14 +3,17 @@ import time
 import rumps
 
 
-class HelloApp(rumps.App):
+class MenuBar(rumps.App):
+    def __init__(self):
+        super(MenuBar, self).__init__(name="メニューバーtodo",title="",icon=None)
+
     @rumps.clicked("通知オン")
     def reload(self, _):
-        getData("2023-1-15 00:46:0.0000")
+        startTrigar("2023-1-15 00:46:0.0000")
 
 
 
-def getData(siteizikan):
+def startTrigar(siteizikan):
     data=datetime.datetime.now()
     # exec_time = datetime.datetime(2023,1,14,5,50,30,0)
     exec_time = datetime.datetime.strptime(siteizikan ,'%Y-%m-%d %H:%M:%S.%f')
@@ -40,7 +43,9 @@ def tuuti():
 
 
 if __name__ == "__main__":
-    HelloApp("HelloApp", icon="icon/fois.png", quit_button="終了").run()
+    app=MenuBar()
+    app.run()
     
+    # MenuBar("HelloApp", icon="icon/fois.png", quit_button="終了").run()
     # get.getData("2023-1-15 00:37:30.0000")
 
