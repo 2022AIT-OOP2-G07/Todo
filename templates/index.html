@@ -37,9 +37,9 @@
         <table id="todo_table">
             <thead>
                 <tr>
-                    <th>予定</th>
+                    <!-- <th>予定</th>
                     <th>期限</th>
-                    <th>完了</th>
+                    <th>完了</th> -->
                 </tr>
             </thead>
             
@@ -47,10 +47,10 @@
                 {% set count = 0 %}
                 {% for item in data %}
                 {% set count = count + 1 %}
-                    <tr id="todo_row_id-{{item[0]}}">
-                        <td>{{item[1]}}</td>
-                        <td>{{item[3]}}</td>
-                        <td>{{item[4]}}</td>
+                    <tr id="todo_row_id-{{item[0]}}" class="todo_row_id">
+                        <td id="yotei">{{item[1]}}</td>
+                        <td id="kigen">&#x1F552;{{item[3]}}</td>
+                        <td id="kanryou">{{item[4]}}</td>
                         <td><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></td>
                     </tr>
                
