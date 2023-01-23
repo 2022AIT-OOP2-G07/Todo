@@ -1,8 +1,15 @@
+# 1/24 04:17時点で最新ver
+# 実行可
+
 import datetime
 import time
 import rumps
 import sqlite3
 # import threading
+
+
+index = 0
+flag = True
 
 
 index = 0
@@ -42,6 +49,8 @@ class MenuBar(rumps.App):
                                       title=cur.fetchall()[stak][1], icon=None)
         # self.startTrigar()
     # print("2023-01-23 17:00")
+        super(MenuBar, self).__init__(name="メニューバーtodo",
+              title=cur.fetchall()[index][1], icon=None)
     # print(cur1.fetchall())
     # print(cur1.fetchall())
         cur.close()
@@ -56,6 +65,16 @@ class MenuBar(rumps.App):
 
         global index
         global flag
+
+        print("aaa")
+        con = sqlite3.connect('todo_list.db')  # データベースに接続
+        cur1 = con.execute(
+            "select * from todo where todo_deadline <> 1 order by todo_deadline")  # 昇順にデータを取り出し
+        # [(1, 'ご飯を食べる', '2023-01-24 02:45', 0)]　ー＞時間を取り出し
+        siteizikan = cur1.fetchall()[index][2]
+        cur2 = con.execute(
+            "select * from todo where todo_deadline <> 1 order by todo_deadline")
+        todo = cur2.fetchall()[index][1]  # todo内容の取り出し
 
         print("aaa")
         con = sqlite3.connect('todo_list.db')  # データベースに接続
@@ -115,6 +134,17 @@ class MenuBar(rumps.App):
                 try:
 
                     next_todo = cur2.fetchall()[index][1]
+            try:
+
+                print('実行時間になりました')
+                print('現在時刻：', datetime.datetime.now())
+
+                index += 1
+                cur2 = con.execute(
+                    "select * from todo where todo_deadline <> 1 order by todo_deadline")
+                try:
+
+                    next_todo = cur2.fetchall()[index][1]
                     print("-------------")
                     print(f'次の予定は[{next_todo}]です。')
                     print(f'index:{index}')
@@ -144,6 +174,24 @@ class MenuBar(rumps.App):
             stak += 1
             print('時刻：', siteizikan)
             print("🟨期限が過ぎているため通知登録ができません。")
+                    flag = True
+                    print(f'flag:{flag}')
+                    print("-------------")
+                    app.title = next_todo
+                except:
+                    flag=False
+                    print("次の予定はありません")
+                
+                
+                self.tuuti(todo)
+
+            except  Exception:
+                print("通知関数を呼び出せませんでした。")
+
+        except  Exception:
+            print("🟨期限が過ぎているため通知登録ができません。")
+        
+        
 
     def tuuti(self, todo):
         global flag
@@ -152,6 +200,10 @@ class MenuBar(rumps.App):
         text = f"「{todo}」の期限が終了しました。"
         rumps.notification(  # 通知
             todo,  # todo内容
+        text= f"「{todo}」の期限が終了しました。"
+        )
+        rumps.notification(     #通知
+            todo,   #todo内容
             text,
             show_text,
             # icon="fois.png",
@@ -208,6 +260,13 @@ if __name__ == "__main__":
         "INSERT INTO todo(id, todo_data, todo_deadline, check_data)values(3,'thir','2023-01-19 23:16',true)")
     # con.execute("DELETE FROM todo WHERE id = 1")
 
+    con.execute("DELETE FROM todo WHERE id = 1") 
+    con.execute("DELETE FROM todo WHERE id = 2") 
+    con.execute("DELETE FROM todo WHERE id = 3") 
+    con.execute("INSERT INTO todo(id, todo_data, todo_deadline, check_data)values(1,'ご飯を食べる','2023-01-24 03:59',false)")
+    con.execute("INSERT INTO todo(id, todo_data, todo_deadline, check_data)values(2,'勉強をする','2023-01-24 04:00',false)")
+    con.execute("INSERT INTO todo(id, todo_data, todo_deadline, check_data)values(3,'おせちを食べる','2023-01-24 04:01',true)")
+    # con.execute("INSERT INTO todo(id, todo_data, todo_deadline, check_data)values(1,'今すぐやれ','2023-01-19 20:05',true)")
     con.commit()
 
     app = MenuBar()
