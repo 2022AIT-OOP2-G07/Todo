@@ -199,25 +199,55 @@ const show_data = (data) => {
             <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
         </tr>
         */
+
         let tr = document.createElement('tr')
         tr.id = `todo_row_id-${elm[0]}`
+        tr.className="todo_row_id"
         // id
-        let td = document.createElement('td')
-        td.textContent = elm[0]
-        tr.appendChild(td)
+        // let td = document.createElement('td')
+        // td.textContent = elm[0]
+        // tr.appendChild(td)
+        // tr.id="yotei"
         // task_name
+        
         td = document.createElement('td')
         td.textContent = elm[1]
+        td.id="yotei"
         tr.appendChild(td)
+
+        td = document.createElement('td')
+
+        let btn = document.createElement('button')
+        btn.innerHTML="編集"
+        btn.type="button"
+
+        btn.id = `edit-${elm[0]}`
+        btn.name=`edit-${elm[0]}`
+        btn.value=`${elm[0]}`
+        td.appendChild(btn)
+
+        tr.appendChild(td)
+        
+        td = document.createElement('td')
+        const img = document.createElement('img')
+        img.src='static/img/other/limit.svg'
+        img.width=25
+        img.height=25
+        td.appendChild(img)
+        tr.appendChild(td)
+
         td = document.createElement('td')
         td.textContent = elm[2]
+        td.id="kigen"
         tr.appendChild(td)
         td = document.createElement('td')
         td.textContent = elm[3]
+        td.id="kanryou"
         tr.appendChild(td)
         td = document.createElement('td')
         //td.textContent = elm[4]
         //tr.appendChild(td)
+
 
         // <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
         td = document.createElement('td')
