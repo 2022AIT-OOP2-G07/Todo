@@ -223,4 +223,84 @@ const show_data = (data) => {
 
     //追加時データが反映されなかったからリロードさせた
     window.location.reload();
+
+    // data.forEach(elm => {
+    //     /* 
+    //     <tr id="todo_row_id-{{item[0]}}">
+    //         <th>{{item[0]}}</th>
+    //         <th>{{item[1]}}</th>
+    //         <th>{{item[2]}}</th>
+    //         <th>{{item[3]}}</th>
+    //         <th>{{item[4]}}</th>
+    //         <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
+    //     </tr>
+    //     */
+
+    //     let tr = document.createElement('tr')
+    //     tr.id = `todo_row_id-${elm[0]}`
+    //     tr.className="todo_row_id"
+    //     // id
+    //     // let td = document.createElement('td')
+    //     // td.textContent = elm[0]
+    //     // tr.appendChild(td)
+    //     // tr.id="yotei"
+    //     // task_name
+        
+    //     td = document.createElement('td')
+    //     td.textContent = elm[1]
+    //     td.id="yotei"
+    //     tr.appendChild(td)
+
+    //     td = document.createElement('td')
+
+    //     let btn = document.createElement('button')
+    //     btn.innerHTML="編集"
+    //     btn.type="button"
+
+    //     btn.id = `edit-${elm[0]}`
+    //     btn.name=`edit-${elm[0]}`
+    //     btn.value=`${elm[0]}`
+    //     td.appendChild(btn)
+
+    //     tr.appendChild(td)
+        
+    //     td = document.createElement('td')
+    //     const img = document.createElement('img')
+    //     img.src='static/img/other/limit.svg'
+    //     img.width=25
+    //     img.height=25
+    //     td.appendChild(img)
+    //     tr.appendChild(td)
+
+    //     td = document.createElement('td')
+    //     td.textContent = elm[2]
+    //     td.id="kigen"
+    //     tr.appendChild(td)
+    //     td = document.createElement('td')
+    //     td.textContent = elm[3]
+    //     td.id="kanryou"
+    //     tr.appendChild(td)
+    //     td = document.createElement('td')
+    //     //td.textContent = elm[4]
+    //     //tr.appendChild(td)
+
+
+    //     // <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
+    //     td = document.createElement('td')
+    //     let cb = document.createElement('input')
+    //     cb.setAttribute('type','checkbox')
+    //     cb.setAttribute('id', `fav-${elm[0]}`)
+    //     cb.setAttribute('name',`fav-${elm[0]}`)
+    //     cb.setAttribute('value',`${elm[0]}`)
+    //     // チェックがされた時の処理を追加
+    //     cb.addEventListener('change', done_action)
+
+    //     td.appendChild(cb)
+    //     tr.appendChild(td)
+
+    //     // 1行分をtableタグ内のtbodyへ追加する
+    //     tableBody.appendChild(tr)
+    // })
+    
+//(予定を追加するとcssとjsが適用されない不具合を修正しました．)
 }
