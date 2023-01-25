@@ -17,7 +17,8 @@
         <img src="/static/img/logo/ver01.svg" alt="✅" id="logomark"/>
         <img src="/static/img/logo/ver02.svg" alt="✅" id="logoword">
     </header>
-    <form id="schedule" action='/register_done'>
+    <!--<form id="schedule" action='/register_done'>-->
+    <form id="schedule" action='/register_done'></form>
         <div>
             <input type="text" id="todo" placeholder="予定を入力" name="todo">
         </div>
@@ -49,9 +50,11 @@
                 {% set count = count + 1 %}
                     <tr id="todo_row_id-{{item[0]}}" class="todo_row_id">
                         <td id="yotei">{{item[1]}}</td>
+                        <td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>
                         <td id="kigen">&#x1F552;{{item[3]}}</td>
                         <td id="kanryou">{{item[4]}}</td>
                         <td><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></td>
+                        <!--<td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>-->
                     </tr>
                
                 
