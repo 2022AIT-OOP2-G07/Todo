@@ -155,6 +155,7 @@ document.querySelectorAll("button[id^=edit-]").forEach((elm) => {
         const text = prompt('予定を入力してください');
         //const e_limit = prompt('期限を入力してください');
         console.log(text)
+        console.log(typeof(text))
         //console.log(e_limit)
         console.log(elm.value)
 
@@ -173,15 +174,7 @@ document.querySelectorAll("button[id^=edit-]").forEach((elm) => {
             console.log(response)
         
             //入力項目の初期化
-            document.getElementById("schedule").reset()
-
-            // エラーの表示領域を初期化
-            document.getElementById('error-container').innerHTML = ""
-            document.getElementById('error-container').style.display = "none"
-            // 登録メッセージ等の表示領域を初期化
-            document.getElementById('message-container').innerHTML = ""
-            document.getElementById('message-container').style.display = "none"
-
+            //document.getElementById("schedule").reset()
 
             response.json().then((data) => {
                 console.log(data) // 取得されたレスポンスデータをデバッグ表示
@@ -198,6 +191,7 @@ document.querySelectorAll("button[id^=edit-]").forEach((elm) => {
 
                     // data を再表示
                     show_data(data.data)
+
                 }
             })
             
