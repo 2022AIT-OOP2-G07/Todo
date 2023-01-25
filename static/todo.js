@@ -3,7 +3,7 @@ window.addEventListener('load', function(){
     for (let i=0; i < todo_table.rows.length; i++) {
       todo_table.rows[i].cells[3].onclick = delete_todo;
     }
-                                      let todo_area =  document.getElementById("todo")
+    let todo_area =  document.getElementById("todo")
     todo_area.addEventListener('keyup',check_todo_area)
   });
   
@@ -149,6 +149,63 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
     })
 })
 
+document.querySelectorAll("button[id^=edit-]").forEach((elm) => {
+    elm.addEventListener("click", (ev) => {
+        console.log("編集ボタン押されたよ！")
+        const text = prompt('予定を入力してください');
+        //const e_limit = prompt('期限を入力してください');
+        console.log(text)
+        //console.log(e_limit)
+        console.log(elm.value)
+
+        //main.pyにデータを渡す
+        const param = new FormData()
+        param.append("e_id", elm.value)
+        param.append("e_todo", text)
+        //param.append("limit", limit)
+        console.log(param)
+        //console.log(param.limit)
+
+        fetch('/edit_todo', {
+            method: 'POST',
+            body: param,
+        }).then((response) => {
+            console.log(response)
+        
+            //入力項目の初期化
+            document.getElementById("schedule").reset()
+
+            // エラーの表示領域を初期化
+            document.getElementById('error-container').innerHTML = ""
+            document.getElementById('error-container').style.display = "none"
+            // 登録メッセージ等の表示領域を初期化
+            document.getElementById('message-container').innerHTML = ""
+            document.getElementById('message-container').style.display = "none"
+
+
+            response.json().then((data) => {
+                console.log(data) // 取得されたレスポンスデータをデバッグ表示
+                
+                // 正常にタスクを完了できているかを確認
+                if (data.result !== "ok") {
+                    window.alert(data.message) // エラー表示
+                } else {
+
+                    console.log(data)
+                    // タスクを完了できたら、チェックされた行を消す
+                    window.alert(data.message)
+
+
+                    // data を再表示
+                    show_data(data.data)
+                }
+            })
+            
+        })
+
+        //window.location = "http://127.0.0.1:5000/edit.html";
+    })
+})
 
 // データ表示を関数化
 const show_data = (data) => {
