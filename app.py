@@ -192,11 +192,12 @@ def edit_todo():
             
         # 変更をコミット(これをやらないと反映されません)
         con.commit()
-        # 接続を閉じる
-        con.close()     # JSON形式でエラーである旨をJSに返す
+    # JSON形式でエラーである旨をJSに返す
 
         cur = con.execute("select * from todo where check_data <> 1 order by todo_deadline")
         data = cur.fetchall()
+        print(data)
+        #con.close()
         cur.close()
     #return jsonify({'result': 'error', 'message': 'pythonにデータが正しく受け取れました。'})
         # エラーなく登録できたら正常終了のメッセージを返します
