@@ -1,3 +1,7 @@
+*{
+    font-family:"ヒラギノ丸ゴ Pro W4","ヒラギノ丸ゴ Pro","Hiragino Maru Gothic Pro";
+}
+
 img#logomark {
     width: 50px;
     height: 50px;
@@ -11,8 +15,8 @@ img#logoword{
 }
 
 header{
-    border-bottom:1px solid #f2f2f2;
-    margin-bottom: 20px;
+    border-bottom:1px solid #B1B3B6;
+    margin-bottom: 50px;
 }
 
 h1 {
@@ -27,19 +31,30 @@ form {
 
 input#todo {
     width: 300px;
-    height: 70px;
-    border: 2px solid #f2f2f2;
-    background-color: #f2f2f2;
+    height: 80px;
+    font-size: 20px;
+    margin-left: 20px;
+    border: 2px solid #F8F8FC;
+    background-color: #F8F8FC;
     border-radius: 0.67em;
     float: left;
+}
+input#todo[type="text"]:focus {
+    border: 1px solid #00bcad;
+    outline: 0;
 }
 
 input#limit{
     margin-top: 20px;
     margin-left: 10px;
-    border: 2px solid #f2f2f2;
-    background-color: #f2f2f2;
+    margin-bottom: 10px;
+    border: 2px solid #F8F8FC;
+    background-color: #F8F8FC;
     border-radius: 0.67em;
+}
+input#limit[type="datetime-local"]:focus {
+    border: 1px solid #00bcad;
+    outline: 0;
 }
 
 button#add-submit{
@@ -47,11 +62,38 @@ button#add-submit{
     width: 80px;
     height: 30px;
     color: #fff;
+    background-color: #000;
+    border: 2px solid #000;
+    border-radius: 0.67em;
+    transition: 0.3s ease-in-out;
+}
+button#add-submit:hover{
     background-color: #00bcad;
     border: 2px solid #00bcad;
-    border-radius: 0.67em;
 }
 
 div#message-container{
     clear: left;
+}
+
+input[type="checkbox"]{
+    color: #00bcad;
+}
+
+tr.todo_row_id{
+    width: 800px;
+    height: 80px;
+    font-size: 20px;
+    margin-left: 20px;
+    border: 2px solid #F8F8FC;
+    background-color: #F8F8FC;
+    color: #4f5051;
+    border-radius: 0.67em;
+    float: left;
+    margin-top: 30px;
+}
+
+#limit{
+    width: 25px;
+    height: 25px;
 }
