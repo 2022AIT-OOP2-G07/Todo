@@ -13,12 +13,7 @@ con.execute("CREATE TABLE IF NOT EXISTS todo(id integer PRIMARY KEY, todo_data t
 
 
 
-# # 5．データ削除
-# ##con.execute("DELETE FROM todo WHERE id = 1")
-# ##con.execute("DELETE FROM todo WHERE id = 2")
-# ##con.execute("DELETE FROM todo WHERE id = 3")
-# con.commit()
-# ４．データ参照
+# 3．データ参照
 cur = con.execute("SELECT * FROM todo")
 for row in cur:
     print(row[1])

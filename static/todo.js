@@ -115,6 +115,58 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
     })
 })
 
+document.querySelectorAll("button[id^=edit-]").forEach((elm) => {
+    elm.addEventListener("click", (ev) => {
+        console.log("編集ボタン押されたよ！")
+        const text = prompt('予定を入力してください');
+        //const e_limit = prompt('期限を入力してください');
+        console.log(text)
+        console.log(typeof(text))
+        //console.log(e_limit)
+        console.log(elm.value)
+
+        //main.pyにデータを渡す
+        const param = new FormData()
+        param.append("e_id", elm.value)
+        param.append("e_todo", text)
+        //param.append("limit", limit)
+        console.log(param)
+        //console.log(param.limit)
+
+        fetch('/edit_todo', {
+            method: 'POST',
+            body: param,
+        }).then((response) => {
+            console.log(response)
+        
+            //入力項目の初期化
+            //document.getElementById("schedule").reset()
+
+            response.json().then((data) => {
+                console.log(data) // 取得されたレスポンスデータをデバッグ表示
+                
+                // 正常にタスクを完了できているかを確認
+                if (data.result !== "ok") {
+                    window.alert(data.message) // エラー表示
+                } else {
+
+                    console.log(data)
+                    // タスクを完了できたら、チェックされた行を消す
+                    window.alert(data.message)
+
+
+                    // data を再表示
+                    show_data(data.data)
+
+                }
+            })
+            
+        })
+
+        //window.location = "http://127.0.0.1:5000/edit.html";
+    })
+})
+
 
 // データ表示を関数化
 const show_data = (data) => {
@@ -141,25 +193,55 @@ const show_data = (data) => {
             <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
         </tr>
         */
+
         let tr = document.createElement('tr')
         tr.id = `todo_row_id-${elm[0]}`
+        tr.className="todo_row_id"
         // id
-        let td = document.createElement('td')
-        td.textContent = elm[0]
-        tr.appendChild(td)
+        // let td = document.createElement('td')
+        // td.textContent = elm[0]
+        // tr.appendChild(td)
+        // tr.id="yotei"
         // task_name
+        
         td = document.createElement('td')
         td.textContent = elm[1]
+        td.id="yotei"
         tr.appendChild(td)
+
+        td = document.createElement('td')
+
+        let btn = document.createElement('button')
+        btn.innerHTML="編集"
+        btn.type="button"
+
+        btn.id = `edit-${elm[0]}`
+        btn.name=`edit-${elm[0]}`
+        btn.value=`${elm[0]}`
+        td.appendChild(btn)
+
+        tr.appendChild(td)
+        
+        td = document.createElement('td')
+        const img = document.createElement('img')
+        img.src='static/img/other/limit.svg'
+        img.width=25
+        img.height=25
+        td.appendChild(img)
+        tr.appendChild(td)
+
         td = document.createElement('td')
         td.textContent = elm[2]
+        td.id="kigen"
         tr.appendChild(td)
         td = document.createElement('td')
         td.textContent = elm[3]
+        td.id="kanryou"
         tr.appendChild(td)
         td = document.createElement('td')
         //td.textContent = elm[4]
         //tr.appendChild(td)
+
 
         // <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
         td = document.createElement('td')
@@ -177,4 +259,5 @@ const show_data = (data) => {
         // 1行分をtableタグ内のtbodyへ追加する
         tableBody.appendChild(tr)
     })
+    
 }

@@ -3,8 +3,7 @@ import sqlite3
 from flask import Flask,render_template,request,g, jsonify
 import datetime
 
-app = Flask(__name__)
-
+app = Flask(__name__,static_url_path='/static')
 
 @app.route('/')
 def todo_db():
@@ -33,6 +32,8 @@ def todo_db():
         print(row)
         print(type(row))
 
+    # cur = con.execute("SELECT * FROM todo")
+
     cur = con.execute("select * from todo where check_data <> 1 order by todo_deadline")
     data = cur.fetchall()
     cur.close()
@@ -51,6 +52,9 @@ def add_todo():
    # javascriptでフェッチして得たデータの取得
     add_todo = request.form.get('todo', None)
     print(add_todo)
+    if len(add_todo) > 30:
+        return jsonify({'result': 'error', 'message': '⚠️予定の文字数は30字以内でお願いします'}) 
+
     add_limit = request.form.get('limit', None)
     print(add_limit)
 
@@ -156,6 +160,51 @@ def register_done():
 
     # エラーなく登録できたら正常終了のメッセージを返します
     return jsonify({'result': 'ok', 'message': f'{ checked_id }のタスクを完了しました。' })
+
+@app.route('/edit_todo', methods=['POST'])
+def edit_todo():
+
+    # javascriptでフェッチして得たデータの取得
+    e_id = request.form.get('e_id', None)
+    e_todo = request.form.get('e_todo', None)
+    print(e_id)
+    print(e_todo)
+    if not e_todo:
+        # e_todoがない場合はエラーを返す
+        return jsonify({'result': 'error', 'message': 'pythonにデータが正しく受け取れませんでした'})
+    else:
+        # TODOのタスク完了をデータベースに反映
+        con = sqlite3.connect('todo_list.db')
+        cur = con.cursor()
+
+        try:
+            # 削除(delete)処理ではなく、check_data列に1を設定して更新(update)する方法
+            # UPDATE文を実行(変数となる部分を?で指定して、後から値をセットしています)
+            cur.execute('''
+                update todo
+                set todo_data = ?
+                where id = ?
+            ''',(e_todo, e_id)) # id = ?の部分にchecked_idをセットしています
+
+        except sqlite3.Error as e:
+            print("error",e.args[0])
+            return jsonify({'result': 'db_error', 'message': e.args[0] })
+            
+        # 変更をコミット(これをやらないと反映されません)
+        con.commit()
+    # JSON形式でエラーである旨をJSに返す
+
+        cur = con.execute("select * from todo where check_data <> 1 order by todo_deadline")
+        data = cur.fetchall()
+        print(data)
+        #con.close()
+        cur.close()
+    #return jsonify({'result': 'error', 'message': 'pythonにデータが正しく受け取れました。'})
+        # エラーなく登録できたら正常終了のメッセージを返します
+        return jsonify({'result': 'ok', 'message': f'{ e_id }のタスクを完了しました。' }, data = data)
+
+
+
 
 
 
