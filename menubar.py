@@ -2,6 +2,7 @@
 # 1/26 21:11時点で最新ver
 # 1/28 4:53時点で最新ver
 # 1/28 14:53時点で最新ver
+# 1/28 15:36時点で最新ver
 # 実行可
 # 1/29 02:06時点で最新ver
 
@@ -294,7 +295,6 @@ flag = True
 tuuti_state=None
 data=[]
 timer_stop=False
-
 try:
     json_file = open('setting.json', 'r')
     notification_flag = json.load(json_file)
@@ -309,7 +309,7 @@ except Exception:
 
 
 
-def getData(self):
+def getData(self):  #データベースからデータを取得してくるメソッド
     global data,reloade,tuuti_state,notification,c
     con = sqlite3.connect('todo_list.db')  # データベースに接続
     cur = con.execute("select * from todo where todo_deadline <> 1 order by todo_deadline")  # 昇順にデータを取り出し
@@ -357,7 +357,6 @@ def check_menubar():    #メニューバーに表示する内容を判断し表�
             else:
                 print(f"•{el[1]}:メニューバー表示可能❌:{el[3]}")
                 index_bar+=1
-    
     if index_bar<len(data):
         print("-----------------------------------------------------")
         return data[index_bar][1]
@@ -549,8 +548,9 @@ def tuuti(todo):  # 通知メソッド
     )
 
 def check_tuuti():  #通知設定が可能かどうかチェックし可能であれば設定可能なtodoが格納されているインデックス番号を設定するメソッド
-    global index_tuuti,data,flag,timer_stop,reloade,tuuti_state,c
+    global index_tuuti,data,flag,timer_stop,reloade,c
     index_tuuti=0
+
     print("🟢通知チェック")
     for el in data:
         try:
@@ -567,7 +567,6 @@ def check_tuuti():  #通知設定が可能かどうかチェックし可能で�
         else:
             print(f"•{el[1]}:通知設定不可能❌:{el[3]}")
             index_tuuti+=1
-    
     if index_tuuti<len(data):
         app.title=data[index_bar][1]+'×' if notification == False else data[index_bar][1]+'⚪︎'
         flag=True
@@ -578,18 +577,15 @@ def check_tuuti():  #通知設定が可能かどうかチェックし可能で�
         flag=False
         print("-----------------------------------------------------")
         timer_stop=True
-
         if reloade._status == False:
             c+=1
             reloade.start()
         return "すべて実行済みです"
 
 def trigar(t):  #通知が実行されている時に毎秒実行されるメソッド
-    global index_bar,index_tuuti
-    global flag,data,tuuti_state,timer_stop,reloade,c,k
+    global index_bar,index_tuuti,flag,data,tuuti_state,timer_stop,reloade,c,k
     
     getData(t)
-
     print(f"trigae:{t._status}--スレッド数：{k}個")
     if timer_stop:
         print(f"t.statue:{t._status}")
@@ -599,7 +595,6 @@ def trigar(t):  #通知が実行されている時に毎秒実行されるメソ
         timer_stop=False
         tuuti_state = False
         app.title=data[index_bar][1]+'×' if tuuti_state == False else data[index_bar][1]+'⚪︎'
-        
         if reloade._status == False:
             c+=1
             reloade.start()
@@ -608,22 +603,17 @@ def trigar(t):  #通知が実行されている時に毎秒実行されるメソ
         if reloade._status == True:
             c-=1
             reloade.stop()
-    
     siteizikan = data[index_tuuti][2]  # [(1, 'ご飯を食べる', '2023-01-24 02:45', 0)]　->時間を取り出し
     todo = data[index_tuuti][1]  # todo内容の取り出し
-
     siteizikan_date = datetime.datetime.strptime(siteizikan, '%Y-%m-%d %H:%M')  # 取り出した期限の時間（siteizikan）は文字列だからdateオブジェクトに変換
     siteizikan_format=siteizikan_date.strftime("%Y-%m-%d %H:%M")    #dateオブジェクトに変換したsiteizikan_dateを"%Y-%m-%d %H:%M"にフォーマット
     now = datetime.datetime.now()
     now_format=now.strftime("%Y-%m-%d %H:%M")
-    
-    
+
     print(f"sitei:{siteizikan_format}")
     print(f"now:{now_format}")
-    
-    print("a")
+
     if siteizikan_format == now_format:
-        
         try:
             print(f"{todo}の時間だよ！")
             print('現在時刻：', datetime.datetime.now())
@@ -635,22 +625,18 @@ def trigar(t):  #通知が実行されている時に毎秒実行されるメソ
                     k-=1
                     t.stop()
                 tuuti_state = False
-                
                 if reloade._status == False:
                     c+=1
                     reloade.start()
-            
         except Exception:
             print("ERROR[2]->->-> 🚨通知関数を呼び出せませんでした🚨 <-<-<-")
         check_tuuti()
-                    
 reloade = rumps.Timer(callback=getData, interval=1)
 
 def swich(self):
     global tuuti_state,timer_stop,reloade,c,k
     
     timer = rumps.Timer(callback=trigar, interval=1)
-
     hyouzi=check_menubar()
     if flag==True:
         self.title = data[index_bar][1]+'×' if notification != True else data[index_bar][1]+'⚪︎'
@@ -771,10 +757,8 @@ class MenuBar(rumps.App):
         print("-----------------------------------------------------")
         hyouzi=check_menubar()
         check_tuuti()
-
         super(MenuBar, self).__init__(name="メニューバーtodo",title=hyouzi+'×' if notification == False else hyouzi+'⚪︎', icon='static/img/icon/icon.png')
         print("アプリ起動-no problem")
-
 
     @rumps.clicked("通知")
     def timer(self,_):      
@@ -785,7 +769,6 @@ class MenuBar(rumps.App):
             }
         with open('setting.json', 'w') as f:
             json.dump(json_data, f, indent=2, ensure_ascii=False)   #設定情報をJSONファイル(setting.json)に記録
-        
         notification = not notification
         print("-----------------------------------------------------")
         print(f"アプリの通知設定[2]：",'通知オン' if notification != False else '通知オフ')
@@ -793,9 +776,10 @@ class MenuBar(rumps.App):
         swich(self)
 
 
-
 if __name__ == "__main__":
+    #ウェブアプリで試す場合はここから
     con = sqlite3.connect('todo_list.db')
+    con.execute("CREATE TABLE IF NOT EXISTS todo(id integer PRIMARY KEY, todo_data text, todo_deadline datetime, check_data boolean)")
 
     con.execute(
         "CREATE TABLE IF NOT EXISTS todo(id integer PRIMARY KEY, todo_data text, todo_deadline datetime, check_data boolean)")
@@ -847,7 +831,8 @@ if __name__ == "__main__":
     con.execute("INSERT INTO todo(id, todo_data, todo_deadline, check_data)values(1,'1＿起きるよ','2023-01-28 01:08',false)")
 
     con.commit()
-
+    #ここまでコメントアウトしてください
+    
     app = MenuBar()
     app.run()
 @rumps.clicked("Hello World")
