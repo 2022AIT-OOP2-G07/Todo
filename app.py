@@ -26,6 +26,14 @@ def todo_db():
     return render_template('index.html', data=data)
 
 
+@app.route('/register_done', methods=['POST'])
+def register_done2():
+
+   # htmlで入力したデータの取得
+    add_id = request.form.get('todo', None)
+    print(add_id)
+
+
 @app.route('/add_todo', methods=['POST'])
 def add_todo():
 

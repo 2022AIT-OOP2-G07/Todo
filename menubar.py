@@ -11,18 +11,9 @@ import datetime
 import json
 import rumps
 import sqlite3
-import sys
-import webbrowser
 
-c = 0
-k = 0
-index_bar = 0
-index_tuuti = 0
-flag = True
-tuuti_state = None
-data = []
-timer_stop = False
-app_flag = False
+# １．DB接続。ファイルがなければ作成する
+con = sqlite3.connect('todo_list.db')
 
 index = 0
 flag = True
@@ -209,19 +200,19 @@ data=[]
 con = sqlite3.connect('todo_list.db')  # データベースに接続
 cur = con.execute(
     "select * from todo where todo_deadline <> 1 order by todo_deadline")
+# ２．テーブル作成
+con.execute("CREATE TABLE IF NOT EXISTS todo(id integer PRIMARY KEY, todo_data text, todo_deadline datetime, check_data boolean)")
+con.commit()
 
-try:
-    json_file = open('setting.json', 'r')
-    notification_flag = json.load(json_file)
-    notification = notification_flag["notification"]
-except Exception:
-    json_data = {
-        "notification": False
-    }
-    with open('setting.json', 'w') as f:
-        # 設定情報をJSONファイル(setting.json)に記録
-        json.dump(json_data, f, indent=2, ensure_ascii=False)
-    notification = False  # 設定情報がなかった場合に初期値としてFalseを代入(通知オフ)
+# ４．データ参照
+cur = con.execute("SELECT * FROM todo")
+for row in cur:
+    # print(row[1])
+    # print(type(row[1]))
+
+    # cur.close()
+
+    # con.close()
 
 
 def getData(self):
@@ -595,3 +586,12 @@ if __name__ == "__main__":
 
     app = MenuBar()
     app.run()
+@rumps.clicked("Hello World")
+def hello_world(sender):
+    rumps.alert("Hello World")
+
+
+if __name__ == "__main__":
+    app = rumps.App("Rumps Test", title=None, icon="img/icon/icon.png",
+                    quit_button="終了").run()
+    # HelloApp("HelloApp", icon="img/icon/icon.png", quit_button="終了").run()
