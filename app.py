@@ -1,6 +1,6 @@
 # ０．sqlite3をインポート。これがないと始まらない
 import sqlite3
-from flask import Flask, render_template, request, g, jsonify, redirect
+from flask import Flask, render_template, request, g, jsonify
 import datetime
 
 app = Flask(__name__, static_url_path='/static')
@@ -13,13 +13,13 @@ def todo_db():
     con = sqlite3.connect('todo_list.db')
     # ２．テーブル作成
     con.execute(
-        "CREATE TABLE IF NOT EXISTS todo(id integer PRIMARY KEY AUTOINCREMENT, todo_data text, todo_deadline datetime)")
+        "CREATE TABLE IF NOT EXISTS todo(id integer PRIMARY KEY AUTOINCREMENT, todo_data text, todo_deadline datetime,check_data boolean)")
     con.commit()
     # 3．データ参照
     cur = con.execute("SELECT * FROM todo")
     # 4. データを締切の近い順に並び替え
     cur = con.execute("select * from todo order by todo_deadline")
-    # 5. テーブル内のデータを全てdataに挿入
+
     data = cur.fetchall()
     cur.close()
 
@@ -44,8 +44,6 @@ def add_todo():
     cur.close()
     # return render_template('index.html', data = data)
     return jsonify({'result': 'ok', 'message': '追加のタスクを完了しました。', 'data': data})
-
-# checkが押されている項目の削除
 
 
 @app.route('/register_done', methods=['POST'])
@@ -137,8 +135,6 @@ def edit_todo():
 # return jsonify({'result': 'ok', 'message': f'{ e_id }のタスクを完了しました。' }, data = data)
 
 
-# (ちょっとした所の変更です。)
-
 #         cur = con.execute("select * from todo where check_data <> 1 order by todo_deadline")
 #         data = cur.fetchall()
 #         cur.close()
@@ -146,8 +142,19 @@ def edit_todo():
 #         # エラーなく登録できたら正常終了のメッセージを返します
 #         return jsonify({'result': 'ok', 'message': f'{ e_id }のタスクを完了しました。' }, data = data)
 
+        con.commit()
+    # JSON形式でエラーである旨をJSに返す
 
-# (編集機能（TODOのところだけ）つけました！)
+        cur = con.execute(
+            "select * from todo where check_data <> 1 order by todo_deadline")
+        data = cur.fetchall()
+        print(data)
+        # con.close()
+        cur.close()
+    # return jsonify({'result': 'error', 'message': 'pythonにデータが正しく受け取れました。'})
+        # エラーなく登録できたら正常終了のメッセージを返します
+        return jsonify({'result': 'ok', 'message': f'{ e_id }のタスクを完了しました。'}, data=data)
+
 
 if __name__ == '__main__':
     app.debug = True
