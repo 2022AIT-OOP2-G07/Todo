@@ -50,6 +50,7 @@ def add_todo():
     limit_str = add_limit.replace("T", " ")
     # str = '2021-05-01 17:10:45'
     dte = datetime.datetime.strptime(limit_str, '%Y-%m-%d %H:%M')
+    # str = '2021-05-01 17:10:45'
 
     con = sqlite3.connect('todo_list.db')
     # データベースにデータを追加
@@ -94,6 +95,19 @@ def add_todo():
     #     con.commit()
     #     # 接続を閉じる
     #     #con.close()
+    # try:
+    #     # データベース内に内容の追加
+    #     #cur.execute('''
+    #     #    update todo
+    #     #    set id = ?
+    #     #    set todo_data = ?
+    #     #    set limit = ?
+    #     #    set check_data = false
+    #     #''',(add_id+1, add_todo, add_limit))
+    #     # データ追加(レコード登録)
+    #     sql = 'insert into todo (id, todo_data, todo_deadline, check_data) values (?,?,?,?)'
+    #     add_data = (add_id, add_todo, limit_str, False)
+    #     con.execute(sql, add_data)
 
     #     cur = con.execute("SELECT * FROM todo")
     #     for row in cur:
