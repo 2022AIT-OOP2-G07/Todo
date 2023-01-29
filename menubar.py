@@ -605,16 +605,18 @@ def check_tuuti():  #通知設定が可能かどうかチェックし可能で�
 
 def trigar(t):  #通知が実行されている時に毎秒実行されるメソッド
     global index_bar,index_tuuti
-    global flag,data,tuuti_state,timer_stop,reloade,c,k
+    global flag,data,tuuti_state,timer_stop,reloade,c,k,timer
     
-    getData(t)
+    getData(timer)
 
-    print(f"trigae:{t._status}--スレッド数：{k}個")
+    # print(f"trigar:{timer._status}--スレッド数：{k}個")
+    print(f"trigar:{timer._status}")
     if timer_stop:
-        print(f"t.statue:{t._status}")
-        if t._status == True:
+        print(f"t.statue:{timer._status}")
+        if timer._status == True:
+            print("ここだよ154")
             k=k-1
-            t.stop()
+            timer.stop()
         timer_stop=False
         tuuti_state = False
         print("--通知をオフにします--")
@@ -655,9 +657,11 @@ def trigar(t):  #通知が実行されている時に毎秒実行されるメソ
                 print("-----------------------------------------------------")
                 print("🟡次の予定はありません")
                 print("-----------------------------------------------------")
-                if t._status == True:
+                if timer._status == True:
                     k=k-1
-                    t.stop()
+                    print("ここだよ199")
+                    timer.stop
+                    
                 tuuti_state = False
                 
                 if reloade._status == False:
@@ -669,11 +673,13 @@ def trigar(t):  #通知が実行されている時に毎秒実行されるメソ
         check_tuuti()
                     
 reloade = rumps.Timer(callback=getData, interval=1)
+timer = rumps.Timer(callback=trigar, interval=1)
 
 def swich(self):
-    global tuuti_state,timer_stop,reloade,c,k
+    global tuuti_state,timer_stop,reloade,c,k,timer
     
-    timer = rumps.Timer(callback=trigar, interval=1)
+    print("ここかな217")
+    
 
     hyouzi=check_menubar()
     if flag==True:
