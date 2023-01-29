@@ -106,7 +106,7 @@ def check_tuuti():  #通知設定が可能かどうかチェックし可能で�
     print("🟢通知 チェック")
     for el in data:
         try:
-            kigen_time = datetime.datetime.strptime(el[2], '%Y-%m-%dT%H:%M')
+            kigen_time = datetime.datetime.strptime(el[2], '%Y-%m-%d %H:%M')
             now = datetime.datetime.now()
         except Exception:
             print("ERROR[1]->->-> 🚨dateオブジェクトに変換中に問題が発生しました🚨 <-<-<-")
