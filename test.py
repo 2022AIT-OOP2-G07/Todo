@@ -14,11 +14,11 @@ cur = con.execute(
     "select * from todo where todo_deadline <> 1 order by todo_deadline")
 
 
-def getData(self):
-    con = sqlite3.connect('todo_list.db')  # データベースに接続
-    cur = con.execute(
-        "select * from todo()")
-    print(cur)
+# def getData(self):
+#     con = sqlite3.connect('todo_list.db')  # データベースに接続
+#     cur = con.execute(
+#         "select * from todo()")
+#     print(cur)
 
 
 def delete_task():
