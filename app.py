@@ -44,15 +44,9 @@ def todo_db():
     ##con.execute("DROP TABLE todo")
     # 7．DB接続解除
 
+    # return jsonify(data = data)
+
     return render_template('index.html', data=data)
-
-
-@app.route('/register_done', methods=['POST'])
-def register_done2():
-
-   # htmlで入力したデータの取得
-    add_id = request.form.get('todo', None)
-    print(add_id)
 
 
 @app.route('/add_todo', methods=['POST'])
@@ -68,6 +62,9 @@ def add_todo():
 
     add_limit = request.form.get('limit', None)
     print(add_limit)
+
+    limit_str = add_limit.replace("T", " ")
+    #str = '2021-05-01 17:10:45'
 
     con = sqlite3.connect('todo_list.db')
 
@@ -103,7 +100,7 @@ def add_todo():
             # ''',(add_id+1, add_todo, add_limit))
             # データ追加(レコード登録)
             sql = 'insert into todo (id, todo_data, todo_deadline, check_data) values (?,?,?,?)'
-            add_data = (add_id, add_todo, add_limit, False)
+            add_data = (add_id, add_todo, limit_str, False)
             con.execute(sql, add_data)
 
         except sqlite3.Error as e:
@@ -174,6 +171,46 @@ def register_done():
 
 @app.route('/edit_todo', methods=['POST'])
 def edit_todo():
+
+    # javascriptでフェッチして得たデータの取得
+    e_id = request.form.get('e_id', None)
+    e_todo = request.form.get('e_todo', None)
+    print(e_id)
+    print(e_todo)
+    if not e_todo:
+        # e_todoがない場合はエラーを返す
+        return jsonify({'result': 'error', 'message': 'pythonにデータが正しく受け取れませんでした'})
+    else:
+        # TODOのタスク完了をデータベースに反映
+        con = sqlite3.connect('todo_list.db')
+        cur = con.cursor()
+
+        try:
+            # 削除(delete)処理ではなく、check_data列に1を設定して更新(update)する方法
+            # UPDATE文を実行(変数となる部分を?で指定して、後から値をセットしています)
+            cur.execute('''
+                update todo
+                set todo_data = ?
+                where id = ?
+            ''', (e_todo, e_id))  # id = ?の部分にchecked_idをセットしています
+
+        except sqlite3.Error as e:
+            print("error", e.args[0])
+            return jsonify({'result': 'db_error', 'message': e.args[0]})
+
+        # 変更をコミット(これをやらないと反映されません)
+        con.commit()
+    # JSON形式でエラーである旨をJSに返す
+
+        cur = con.execute(
+            "select * from todo where check_data <> 1 order by todo_deadline")
+        data = cur.fetchall()
+        print(data)
+        # con.close()
+        cur.close()
+    # return jsonify({'result': 'error', 'message': 'pythonにデータが正しく受け取れました。'})
+        # エラーなく登録できたら正常終了のメッセージを返します
+        return jsonify({'result': 'ok', 'message': f'{ e_id }のタスクを完了しました。'}, data=data)
 
 
 if __name__ == '__main__':

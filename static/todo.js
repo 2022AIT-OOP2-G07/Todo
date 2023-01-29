@@ -1,3 +1,37 @@
+/**fetch("/").then(response => {
+    console.log(response);
+    response.json().then((data) => {
+        console.log(data);  // 取得されたレスポンスデータをデバッグ表示
+        // データを表示させる
+        const tableBody = document.querySelector("#todo_table > tbody");
+        tableBody.innerHTML = ""
+
+        show_data(data.data)
+        /**data.forEach(elm => {
+            // 1行づつ処理を行う
+            let tr = document.createElement('tr');
+            // 予定
+            let td = document.createElement('td');
+            td.innerText = elm.todo;
+            tr.appendChild(td);
+            // 期限
+            td = document.createElement('td');
+            td.innerText = elm.limit;
+            tr.appendChild(td);
+            // チェック
+            td = document.createElement('td');
+            td.innerText = elm.checked;
+            tr.appendChild(td);
+
+            // 1行分をtableタグ内のtbodyへ追加する
+            tableBody.appendChild(tr);
+        });**/
+    //});
+//});
+
+
+
+
 const done_action = (ev) => {
     console.log(ev)
     elm = ev.srcElement // チェックボックスをeventから再取得
