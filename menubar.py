@@ -106,7 +106,7 @@ def check_tuuti():  #通知設定が可能かどうかチェックし可能で�
     print("🟢通知 チェック")
     for el in data:
         try:
-            kigen_time = datetime.datetime.strptime(el[2], '%Y-%m-%dT%H:%M')
+            kigen_time = datetime.datetime.strptime(el[2], '%Y-%m-%d %H:%M')
             now = datetime.datetime.now()
         except Exception:
             print("ERROR[1]->->-> 🚨dateオブジェクトに変換中に問題が発生しました🚨 <-<-<-")
@@ -171,7 +171,7 @@ def trigar(t):  #通知が実行されている時に毎秒実行されるメソ
     siteizikan = data[index_tuuti][2]  # [(1, 'ご飯を食べる', '2023-01-24 02:45', 0)]　->時間を取り出し
     todo = data[index_tuuti][1]  # todo内容の取り出し
 
-    siteizikan_date = datetime.datetime.strptime(siteizikan, '%Y-%m-%dT%H:%M')  # 取り出した期限の時間（siteizikan）は文字列だからdateオブジェクトに変換
+    siteizikan_date = datetime.datetime.strptime(siteizikan, '%Y-%m-%d %H:%M')  # 取り出した期限の時間（siteizikan）は文字列だからdateオブジェクトに変換
     siteizikan_format=siteizikan_date.strftime("%Y-%m-%d %H:%M")    #dateオブジェクトに変換したsiteizikan_dateを"%Y-%m-%d %H:%M"にフォーマット
     now = datetime.datetime.now()
     now_format=now.strftime("%Y-%m-%d %H:%M")
