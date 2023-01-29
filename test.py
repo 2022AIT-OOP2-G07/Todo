@@ -40,7 +40,6 @@ class MenuBar(rumps.App):
             # self.menu[task[0]].add
             taskNumbar += 1
             del task[0]
-        con.close()
         taskNumbar = 1
 
     @rumps.clicked("Webを開く")
@@ -51,10 +50,10 @@ class MenuBar(rumps.App):
     @rumps.clicked("'MenuBar'を更新する")
     def update(self, _):
         con = sqlite3.connect('todo_list.db')
-        cur = con.execute(
-            "select * from todo where todo_deadline <> 1 order by todo_deadline")
+        cur.execute('SELECT * FROM todo')
         con.commit()
-        con.close()
+        # cur.close()
+        # con.close()
 
 
 # @rumps.clicked("Notify!")
