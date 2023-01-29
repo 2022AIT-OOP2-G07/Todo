@@ -42,7 +42,12 @@ def todo_db():
     ##con.execute("DROP TABLE todo")
     # 7．DB接続解除
 
+    #return jsonify(data = data)
+
     return render_template('index.html', data = data)
+
+
+
 
 @app.route('/add_todo', methods=['POST'])
 def add_todo():
@@ -57,6 +62,10 @@ def add_todo():
 
     add_limit = request.form.get('limit', None)
     print(add_limit)
+
+    limit_str = add_limit.replace("T", " ")
+    #str = '2021-05-01 17:10:45'
+    dte = datetime.datetime.strptime(limit_str, '%Y-%m-%d %H:%M')
 
     con = sqlite3.connect('todo_list.db')
 
@@ -92,7 +101,7 @@ def add_todo():
             #''',(add_id+1, add_todo, add_limit))
             # データ追加(レコード登録)
             sql = 'insert into todo (id, todo_data, todo_deadline, check_data) values (?,?,?,?)'
-            add_data = (add_id, add_todo, add_limit, False)
+            add_data = (add_id, add_todo, dte, False)
             con.execute(sql, add_data)
 
 
