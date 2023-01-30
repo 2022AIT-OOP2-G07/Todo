@@ -29,8 +29,39 @@
     //});
 //});
 
+window.addEventListener('load', function(){
+    let  todo_table = document.getElementById("todo_table");
+    for (let i=0; i < todo_table.rows.length; i++) {
+      todo_table.rows[i].cells[2].onclick = delete_todo;
+    }
+    let todo_area =  document.getElementById("todo")
+    todo_area.addEventListener('change',check_todo_area)
+    todo_area.addEventListener('keyup',check_todo_area)
+  });
 
+function delete_todo(e){
+    console.log(e.target.id);
+    const postdata = new FormData();
+    postdata.append("delete_id", e.target.id); 
+    fetch("/delete", {
+      method: "POST",
+      body: postdata, // IDデータが入ったFormDataを送信
+    })
 
+    window.location.reload()
+  }
+  
+function check_todo_area(){
+    console.log(document.getElementById("todo").value.length)
+    //半角だと30文字文字より多く文字を入力する事はできないが全角だと30文字を超えるが、enter押下時30文字に表示される
+    if(document.getElementById("todo").value.length == 30){
+        document.getElementById("alert_area").style.display = "block"
+        console.log("unko_time")
+    }
+    else{
+        document.getElementById("alert_area").style.display = "none"
+    }
+}
 
 const done_action = (ev) => {
     console.log(ev)
@@ -139,10 +170,8 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
             } else {
                 // タスクを完了できたら、チェックされた行を消す
                 window.alert(data.message)
+                window.location.reload()
 
-
-                // data を再表示
-                show_data(data.data)
             }
         })
         
@@ -188,14 +217,12 @@ document.querySelectorAll("button[id^=edit-]").forEach((elm) => {
                     // タスクを完了できたら、チェックされた行を消す
                     window.alert(data.message)
 
-
-                    // data を再表示
-                    show_data(data.data)
-
                 }
             })
             
         })
+
+        window.location.reload()
 
         //window.location = "http://127.0.0.1:5000/edit.html";
     })
@@ -203,20 +230,20 @@ document.querySelectorAll("button[id^=edit-]").forEach((elm) => {
 
 
 // データ表示を関数化
-const show_data = (data) => {
-    // データを表示させる
-    const tableBody = document.querySelector("#todo_table > tbody")
-    tableBody.innerHTML = ""
+// const show_data = (data) => {
+//     // データを表示させる
+//     const tableBody = document.querySelector("#todo_table > tbody")
+//     tableBody.innerHTML = ""
 
-    // レスポンスのJSONデータの件数が0だった場合
-    if (data && data.length == 0) {
-        let tr = document.createElement('tr')
-        tr.innerHTML = "表示するデータがありません。"
-        tableBody.appendChild(tr)
-        return
-    }
+//     // レスポンスのJSONデータの件数が0だった場合
+//     if (data && data.length == 0) {
+//         let tr = document.createElement('tr')
+//         tr.innerHTML = "表示するデータがありません。"
+//         tableBody.appendChild(tr)
+//         return
+//     }
 
-    data.forEach(elm => {
+//     data.forEach(elm => {
         /* 
         <tr id="todo_row_id-{{item[0]}}">
             <th>{{item[0]}}</th>
@@ -228,70 +255,70 @@ const show_data = (data) => {
         </tr>
         */
 
-        let tr = document.createElement('tr')
-        tr.id = `todo_row_id-${elm[0]}`
-        tr.className="todo_row_id"
-        // id
-        // let td = document.createElement('td')
-        // td.textContent = elm[0]
-        // tr.appendChild(td)
-        // tr.id="yotei"
-        // task_name
+    //     let tr = document.createElement('tr')
+    //     tr.id = `todo_row_id-${elm[0]}`
+    //     tr.className="todo_row_id"
+    //     // id
+    //     // let td = document.createElement('td')
+    //     // td.textContent = elm[0]
+    //     // tr.appendChild(td)
+    //     // tr.id="yotei"
+    //     // task_name
         
-        td = document.createElement('td')
-        td.textContent = elm[1]
-        td.id="yotei"
-        tr.appendChild(td)
+    //     td = document.createElement('td')
+    //     td.textContent = elm[1]
+    //     td.id="yotei"
+    //     tr.appendChild(td)
 
-        td = document.createElement('td')
+    //     td = document.createElement('td')
 
-        let btn = document.createElement('button')
-        btn.innerHTML="編集"
-        btn.type="button"
+    //     let btn = document.createElement('button')
+    //     btn.innerHTML="編集"
+    //     btn.type="button"
 
-        btn.id = `edit-${elm[0]}`
-        btn.name=`edit-${elm[0]}`
-        btn.value=`${elm[0]}`
-        td.appendChild(btn)
+    //     btn.id = `edit-${elm[0]}`
+    //     btn.name=`edit-${elm[0]}`
+    //     btn.value=`${elm[0]}`
+    //     td.appendChild(btn)
 
-        tr.appendChild(td)
+    //     tr.appendChild(td)
         
-        td = document.createElement('td')
-        const img = document.createElement('img')
-        img.src='static/img/other/limit.svg'
-        img.width=25
-        img.height=25
-        td.appendChild(img)
-        tr.appendChild(td)
+    //     td = document.createElement('td')
+    //     const img = document.createElement('img')
+    //     img.src='static/img/other/limit.svg'
+    //     img.width=25
+    //     img.height=25
+    //     td.appendChild(img)
+    //     tr.appendChild(td)
 
-        td = document.createElement('td')
-        td.textContent = elm[2]
-        td.id="kigen"
-        tr.appendChild(td)
-        td = document.createElement('td')
-        td.textContent = elm[3]
-        td.id="kanryou"
-        tr.appendChild(td)
-        td = document.createElement('td')
-        //td.textContent = elm[4]
-        //tr.appendChild(td)
+    //     td = document.createElement('td')
+    //     td.textContent = elm[2]
+    //     td.id="kigen"
+    //     tr.appendChild(td)
+    //     td = document.createElement('td')
+    //     td.textContent = elm[3]
+    //     td.id="kanryou"
+    //     tr.appendChild(td)
+    //     td = document.createElement('td')
+    //     //td.textContent = elm[4]
+    //     //tr.appendChild(td)
 
 
-        // <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
-        td = document.createElement('td')
-        let cb = document.createElement('input')
-        cb.setAttribute('type','checkbox')
-        cb.setAttribute('id', `fav-${elm[0]}`)
-        cb.setAttribute('name',`fav-${elm[0]}`)
-        cb.setAttribute('value',`${elm[0]}`)
-        // チェックがされた時の処理を追加
-        cb.addEventListener('change', done_action)
+    //     // <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
+    //     td = document.createElement('td')
+    //     let cb = document.createElement('input')
+    //     cb.setAttribute('type','checkbox')
+    //     cb.setAttribute('id', `fav-${elm[0]}`)
+    //     cb.setAttribute('name',`fav-${elm[0]}`)
+    //     cb.setAttribute('value',`${elm[0]}`)
+    //     // チェックがされた時の処理を追加
+    //     cb.addEventListener('change', done_action)
 
-        td.appendChild(cb)
-        tr.appendChild(td)
+    //     td.appendChild(cb)
+    //     tr.appendChild(td)
 
-        // 1行分をtableタグ内のtbodyへ追加する
-        tableBody.appendChild(tr)
-    })
+    //     // 1行分をtableタグ内のtbodyへ追加する
+    //     tableBody.appendChild(tr)
+    // })
     
-}
+//}
