@@ -32,15 +32,45 @@
 window.addEventListener('load', function(){
     let  todo_table = document.getElementById("todo_table");
     for (let i=0; i < todo_table.rows.length; i++) {
-      todo_table.rows[i].cells[2].onclick = delete_todo;
+      todo_table.rows[i].cells[3].onclick = delete_todo;
+      todo_table.rows[i].cells[0].onclick = check_todo;
+    }
+    let  todo_check_table = document.getElementById("todo_check_table");
+    for (let i=0; i < todo_check_table.rows.length; i++) {
+      todo_check_table.rows[i].cells[3].onclick = delete_todo;
+      todo_check_table.rows[i].cells[0].onclick = uncheck_todo;
     }
     let todo_area =  document.getElementById("todo")
     todo_area.addEventListener('change',check_todo_area)
     todo_area.addEventListener('keyup',check_todo_area)
   });
 
-function delete_todo(e){
+function check_todo(e){
     console.log(e.target.id);
+    const postdata = new FormData();
+    postdata.append("check_id", e.target.id); 
+    fetch("/check", {
+      method: "POST",
+      body: postdata, // IDデータが入ったFormDataを送信
+    })
+
+    window.location.reload()
+}
+function uncheck_todo(e){
+    console.log(e.target.id);
+    const postdata = new FormData();
+    postdata.append("check_id", e.target.id); 
+    fetch("/uncheck", {
+      method: "POST",
+      body: postdata, // IDデータが入ったFormDataを送信
+    })
+
+    window.location.reload()
+}
+
+function delete_todo(e){
+    let res = confirm("本当に削除しますか？");
+    if( res == false ) return;
     const postdata = new FormData();
     postdata.append("delete_id", e.target.id); 
     fetch("/delete", {

@@ -1,7 +1,3 @@
-*{
-    font-family:"ヒラギノ丸ゴ Pro W4","ヒラギノ丸ゴ Pro","Hiragino Maru Gothic Pro";
-}
-
 img#logomark {
     width: 50px;
     height: 50px;
@@ -29,7 +25,7 @@ form {
     
 }
 
-input#todo {
+#todo {
     width: 300px;
     height: 80px;
     font-size: 20px;
@@ -37,9 +33,10 @@ input#todo {
     border: 2px solid #F8F8FC;
     background-color: #F8F8FC;
     border-radius: 0.67em;
+    box-shadow: -4px 0px 15px 0px #28252d;
     float: left;
 }
-input#todo[type="text"]:focus {
+#todo:focus {
     border: 1px solid #00bcad;
     outline: 0;
 }
@@ -51,6 +48,8 @@ input#limit{
     border: 2px solid #F8F8FC;
     background-color: #F8F8FC;
     border-radius: 0.67em;
+    box-shadow: -4px 0px 15px 0px #28252d;
+    padding: 10px;
 }
 input#limit[type="datetime-local"]:focus {
     border: 1px solid #00bcad;
@@ -65,7 +64,6 @@ button#add-submit{
     background-color: #000;
     border: 2px solid #000;
     border-radius: 0.67em;
-    transition: 0.3s ease-in-out;
 }
 button#add-submit:hover{
     background-color: #00bcad;
@@ -76,24 +74,119 @@ div#message-container{
     clear: left;
 }
 
+.delete_button{
+    background-color: red;
+    width: 20px;
+    height: 20px;
+}
+td > button{
+    background-color: red;
+    color: white;
+}
+
 input[type="checkbox"]{
     color: #00bcad;
 }
 
-tr.todo_row_id{
-    width: 800px;
-    height: 80px;
-    font-size: 20px;
-    margin-left: 20px;
-    border: 2px solid #F8F8FC;
-    background-color: #F8F8FC;
-    color: #4f5051;
-    border-radius: 0.67em;
-    float: left;
-    margin-top: 30px;
+#todo_table{
+    width: 100%;
 }
 
-#limit{
-    width: 25px;
-    height: 25px;
+#todo_table tr{
+    background-color: #65eec0;
+}
+
+#todo_check_table{
+    margin-top: 0px;
+    width: 100%;
+}
+
+#todo_check_table tr{
+    background-color: #c4d7f6;
+}
+
+#strcolor{
+    color: rgb(242, 157, 83);
+}
+
+#incomplete_schedule{
+    margin: 0;
+
+    text-shadow: 3px 8px 1px rgba(30, 30, 43, 0.213);
+   
+    color: black;
+}
+
+#checked_schedule{
+
+    margin: 0;
+
+    text-shadow: 3px 8px 1px rgba(30, 30, 43, 0.213);
+   
+    color: black;
+} */
+
+a.delete_button {
+    color: white;
+  }
+
+  a.delete_button:hover{
+    color: red;
+  }
+
+td{
+    padding : 10px !important;
+    margin: 10px;
+    vertical-align: middle;
+  }
+
+  .schedule{
+    box-shadow: -4px 0px 15px 0px #28252d;
+    border-radius: 10px;
+  }
+
+  #add-submit{
+    box-shadow: 2px 7px 10px -2px #313796;
+    border-radius: 100px;
+    transition:0.3s;
+    cursor: pointer;
+  }
+
+  #add-submit:hover{
+    box-shadow: none;
+    transform: translateY(7px);
+  }
+
+  #limit_image{
+    width: 30px;
+    height: 30px;
+  }
+
+  .delete_button{
+    background: transparent;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+
+  .width10{
+    width: 100px;
+  }
+
+  .width40{
+    width: 600px;
+  }
+
+  #no_check{
+    margin: 20px;
+    margin-top: 0;
+  }
+
+  #checked{
+    margin: 20px;
+    margin-top: 0px;
+  }
+
+*{
+    font-family:"ヒラギノ丸ゴ Pro W4","ヒラギノ丸ゴ Pro","Hiragino Maru Gothic Pro";
 }

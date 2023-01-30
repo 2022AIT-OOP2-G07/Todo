@@ -12,19 +12,21 @@ def todo_db():
     con = sqlite3.connect('todo_list.db')
     # ２．テーブル作成
     con.execute(
-        "CREATE TABLE IF NOT EXISTS todo(id integer PRIMARY KEY, todo_data text, todo_deadline datetime, check_data boolean)")
+        "CREATE TABLE IF NOT EXISTS todo(id integer PRIMARY KEY , todo_data text, todo_deadline datetime, check_data integer DEFAULT 0)")
     con.commit()
-    # ４．データ参照
-    # cur = con.execute("SELECT * FROM todo")
-    # for row in cur:
-    #     print(row)
-    #     print(type(row))
 
-    cur = con.execute("select * from todo order by todo_deadline")
+    # cur = con.execute("select * from todo order by todo_deadline")
+    cur = con.execute(
+        "select * from todo where check_data = '0' order by todo_deadline")
     data = cur.fetchall()
     cur.close()
 
-    return render_template('index.html', data=data)
+    cur2 = con.execute(
+        "select * from todo where check_data = '1' order by todo_deadline")
+    check_data = cur2.fetchall()
+    cur2.close()
+
+    return render_template('index.html', data=data, check_data=check_data)
 
 
 @app.route('/add_todo', methods=['POST'])
@@ -33,11 +35,12 @@ def add_todo():
     add_todo = request.form.get('todo', None)
     # 上記と同じくadd_limitに格納
     add_limit = request.form.get('limit', None)
+    check_todo = 1
     limit_str = add_limit.replace("T", " ")
     con = sqlite3.connect('todo_list.db')
     # データベースにデータを追加
-    con.execute("INSERT INTO todo(todo_data, todo_deadline)values(?,?)", [
-                add_todo, limit_str])
+    con.execute("INSERT INTO todo(todo_data, todo_deadline, check_data)values(?,?,?)", [
+                add_todo, limit_str, 0])
     con.commit()
     cur = con.execute("SELECT * FROM todo")
     cur = con.execute("select * from todo order by todo_deadline")
@@ -212,6 +215,22 @@ def delete():
     delete_id = request.form.get('delete_id', None)
     con = sqlite3.connect('todo_list.db')
     con.execute("DELETE FROM todo WHERE id = ?", [delete_id])
+    con.commit()
+
+
+@app.route("/check", methods=["POST"])
+def check():
+    check_id = request.form.get('check_id', None)
+    con = sqlite3.connect('todo_list.db')
+    con.execute("UPDATE todo SET check_data = 1 WHERE id = ?", [check_id])
+    con.commit()
+
+
+@app.route("/uncheck", methods=["POST"])
+def uncheck():
+    check_id = request.form.get('check_id', None)
+    con = sqlite3.connect('todo_list.db')
+    con.execute("UPDATE todo SET check_data = 0 WHERE id = ?", [check_id])
     con.commit()
 
 
