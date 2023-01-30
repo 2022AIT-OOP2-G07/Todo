@@ -2,9 +2,12 @@
 import sqlite3
 from flask import Flask, render_template, request, g, jsonify
 import datetime
+import menubar
 
 app = Flask(__name__, static_url_path='/static')
 
+
+a = menubar.MenuBar
 
 @app.route('/')
 def todo_db():
@@ -217,4 +220,5 @@ def delete():
 
 if __name__ == '__main__':
     app.debug = True
+    app = menubar.MenuBar()
     app.run()
