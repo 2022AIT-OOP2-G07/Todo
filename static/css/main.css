@@ -75,6 +75,54 @@ input[type="checkbox"]{
     color: #00bcad;
 }
 
+#todo_table{
+    width: 100%;
+}
+
+tr{
+    background-color: #00bcad;
+}
+
+table td{
+    padding : 10px;
+  }
+
+  .schedule{
+    box-shadow: -4px 0px 15px 0px #28252d;
+    border-radius: 10px;
+  }
+
+  #add-submit{
+    box-shadow: 2px 7px 10px -2px #313796;
+    border-radius: 100px;
+    transition:0.3s;
+    cursor: pointer;
+  }
+
+  #add-submit:hover{
+    box-shadow: none;
+    transform: translateY(7px);
+  }
+
+  #limit{
+    cursor: pointer;
+  }
+
+  .delete_button{
+    background: transparent;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+
+  .width10{
+    width: 100px;
+  }
+
+  .width40{
+    width: 600px;
+  }
+
 *{
     font-family:"ヒラギノ丸ゴ Pro W4","ヒラギノ丸ゴ Pro","Hiragino Maru Gothic Pro";
 }

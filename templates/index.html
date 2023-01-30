@@ -12,14 +12,14 @@
 
     <script defer src="{{ url_for('static', filename='todo.js') }}"></script>
 </head>
-<body>
+<body background="https://cdn.discordapp.com/attachments/1058362475877240974/1068082655524044850/konstantin-kleine-V1NVvXmO_dk-unsplash.jpg”%3E%22%3E">
     <header>
-        <img src="../img/logo/ver01.svg" alt="✅" id="logomark">
+        <img src="https://images.goodsmile.info/cgm/images/product/20210513/11189/84603/large/1c62c769931f85ed2b8f24df5ade7969.jpg" alt="✅" id="logomark">
         <img src="../img/logo/ver02.svg" alt="✅" id="logoword">
     </header>
     <form id="schedule" action='/register_done'>
         <div>
-            <input type="text" id="todo" placeholder="予定を入力" name="todo">
+            <input type="text" id="todo" placeholder="予定を入力" name="todo" class="schedule" maxlength="30">
         </div>
         <div>
             <input type="datetime-local" id="limit" name="time">
@@ -29,34 +29,23 @@
         </div>
     </form>
 
+    <p id="alert_area" style="display:none; color:red">30文字より多く入力する事はできません。</p>
+
     <div id="message-container" role="alert" style="display: none;"></div>
             <div id="error-container" role="alert" style="display: none;"></div>
             <h2>{{ result_message }}</h2>
 
     <div>
         <table id="todo_table">
-            <thead>
-                <tr>
-                    <th>予定</th>
-                    <th>期限</th>
-                    <th>完了</th>
-                </tr>
-            </thead>
             
-            <tbody>
-                {% set count = 0 %}
                 {% for item in data %}
-                {% set count = count + 1 %}
-                    <tr id="todo_row_id-{{item[0]}}">
-                        <td>{{item[1]}}</td>
-                        <td>{{item[3]}}</td>
-                        <td>{{item[4]}}</td>
-                        <td><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></td>
-                    </tr>
-               
-                
+                <tr id="oboro">
+                    <td><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></td>
+                    <td>{{item[1]}}</td>
+                    <td>{{item[2]}}</td>
+                    <td><button type="button" id="{{item[0]}}" >削 除</button></td>
+                </tr>
                 {% endfor %}
-            </tbody>
         </table>
     </div>
 </body>

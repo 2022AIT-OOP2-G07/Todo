@@ -1,3 +1,37 @@
+window.addEventListener('load', function(){
+    let  todo_table = document.getElementById("todo_table");
+    for (let i=0; i < todo_table.rows.length; i++) {
+      todo_table.rows[i].cells[3].onclick = delete_todo;
+    }
+                                      let todo_area =  document.getElementById("todo")
+    todo_area.addEventListener('keyup',check_todo_area)
+  });
+  
+function check_todo_area(){
+    console.log(document.getElementById("todo").value.length)
+    //半角だと30文字文字より多く文字を入力する事はできないが全角だと30文字を超えるが、enter押下時30文字に表示される
+    if(document.getElementById("todo").value.length == 30){
+        document.getElementById("alert_area").style.display = "block"
+        console.log("unko_time")
+    }
+    else{
+        document.getElementById("alert_area").style.display = "none"
+    }
+
+}
+
+function delete_todo(e){
+    let res = confirm("うんこ？");
+    if( res == false ) return;
+    console.log(e.target.id);
+    const postdata = new FormData();
+    postdata.append("delete_id", e.target.id); 
+    fetch("/delete", {
+      method: "POST",
+      body: postdata, // IDデータが入ったFormDataを送信
+    })
+    window.location.reload();
+  }
 const done_action = (ev) => {
     console.log(ev)
     elm = ev.srcElement // チェックボックスをeventから再取得
@@ -39,12 +73,12 @@ const done_action = (ev) => {
 }
 
 
-
 document.querySelectorAll("input[id^=fav-]").forEach((elm) => {
     elm.addEventListener('change', done_action)
 })
 
 document.getElementById("add-submit").addEventListener("click", async (ev) => {
+    
     // ボタンイベントのキャンセル
     ev.preventDefault()
     console.log("addボタン押されたよ！！")
@@ -130,51 +164,6 @@ const show_data = (data) => {
         return
     }
 
-    data.forEach(elm => {
-        /* 
-        <tr id="todo_row_id-{{item[0]}}">
-            <th>{{item[0]}}</th>
-            <th>{{item[1]}}</th>
-            <th>{{item[2]}}</th>
-            <th>{{item[3]}}</th>
-            <th>{{item[4]}}</th>
-            <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
-        </tr>
-        */
-        let tr = document.createElement('tr')
-        tr.id = `todo_row_id-${elm[0]}`
-        // id
-        let td = document.createElement('td')
-        td.textContent = elm[0]
-        tr.appendChild(td)
-        // task_name
-        td = document.createElement('td')
-        td.textContent = elm[1]
-        tr.appendChild(td)
-        td = document.createElement('td')
-        td.textContent = elm[2]
-        tr.appendChild(td)
-        td = document.createElement('td')
-        td.textContent = elm[3]
-        tr.appendChild(td)
-        td = document.createElement('td')
-        //td.textContent = elm[4]
-        //tr.appendChild(td)
-
-        // <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
-        td = document.createElement('td')
-        let cb = document.createElement('input')
-        cb.setAttribute('type','checkbox')
-        cb.setAttribute('id', `fav-${elm[0]}`)
-        cb.setAttribute('name',`fav-${elm[0]}`)
-        cb.setAttribute('value',`${elm[0]}`)
-        // チェックがされた時の処理を追加
-        cb.addEventListener('change', done_action)
-
-        td.appendChild(cb)
-        tr.appendChild(td)
-
-        // 1行分をtableタグ内のtbodyへ追加する
-        tableBody.appendChild(tr)
-    })
+    //追加時データが反映されなかったからリロードさせた
+    window.location.reload();
 }
