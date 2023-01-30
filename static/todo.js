@@ -35,14 +35,16 @@ window.addEventListener('load', function(){
       todo_table.rows[i].cells[3].onclick = delete_todo;
       todo_table.rows[i].cells[0].onclick = check_todo;
     }
+
     let  todo_check_table = document.getElementById("todo_check_table");
     for (let i=0; i < todo_check_table.rows.length; i++) {
       todo_check_table.rows[i].cells[3].onclick = delete_todo;
       todo_check_table.rows[i].cells[0].onclick = uncheck_todo;
     }
-    let todo_area =  document.getElementById("todo")
-    todo_area.addEventListener('change',check_todo_area)
-    todo_area.addEventListener('keyup',check_todo_area)
+
+    // let todo_area =  document.getElementById("todo")
+    // todo_area.addEventListener('change',check_todo_area)
+    // todo_area.addEventListener('keyup',check_todo_area)
   });
 
 function check_todo(e){
