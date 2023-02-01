@@ -64,12 +64,14 @@ async function uncheck_todo(e) {
   window.location.reload();
 }
 
-function delete_todo(e) {
+async function delete_todo(e) {
   let res = confirm("本当に削除しますか？");
   if (res == false) return;
   const postdata = new FormData();
   postdata.append("delete_id", e.target.id);
-  fetch("/delete", {
+  //pythonの処理が全て完了してから window.location.reload()
+  //が行われるようにした
+  await fetch("/delete", {
     method: "POST",
     body: postdata, // IDデータが入ったFormDataを送信
   });
@@ -189,7 +191,7 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
         window.alert(data.message); // エラー表示
       } else {
         // タスクを完了できたら、チェックされた行を消す
-        //window.alert(data.message);
+        window.alert(data.message);
         window.location.reload();
       }
     });
