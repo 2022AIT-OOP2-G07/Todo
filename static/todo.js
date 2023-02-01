@@ -1,37 +1,3 @@
-window.addEventListener('load', function(){
-    let  todo_table = document.getElementById("todo_table");
-    for (let i=0; i < todo_table.rows.length; i++) {
-      todo_table.rows[i].cells[3].onclick = delete_todo;
-    }
-    let todo_area =  document.getElementById("todo")
-    todo_area.addEventListener('keyup',check_todo_area)
-  });
-  
-function check_todo_area(){
-    console.log(document.getElementById("todo").value.length)
-    //半角だと30文字文字より多く文字を入力する事はできないが全角だと30文字を超えるが、enter押下時30文字に表示される
-    if(document.getElementById("todo").value.length == 30){
-        document.getElementById("alert_area").style.display = "block"
-        console.log("unko_time")
-    }
-    else{
-        document.getElementById("alert_area").style.display = "none"
-    }
-
-}
-
-function delete_todo(e){
-    let res = confirm("うんこ？");
-    if( res == false ) return;
-    console.log(e.target.id);
-    const postdata = new FormData();
-    postdata.append("delete_id", e.target.id); 
-    fetch("/delete", {
-      method: "POST",
-      body: postdata, // IDデータが入ったFormDataを送信
-    })
-    window.location.reload();
-  }
 /**fetch("/").then(response => {
     console.log(response);
     response.json().then((data) => {
@@ -66,15 +32,47 @@ function delete_todo(e){
 window.addEventListener('load', function(){
     let  todo_table = document.getElementById("todo_table");
     for (let i=0; i < todo_table.rows.length; i++) {
-      todo_table.rows[i].cells[2].onclick = delete_todo;
+      todo_table.rows[i].cells[3].onclick = delete_todo;
+      todo_table.rows[i].cells[0].onclick = check_todo;
     }
-    let todo_area =  document.getElementById("todo")
-    todo_area.addEventListener('change',check_todo_area)
-    todo_area.addEventListener('keyup',check_todo_area)
+
+    let  todo_check_table = document.getElementById("todo_check_table");
+    for (let i=0; i < todo_check_table.rows.length; i++) {
+      todo_check_table.rows[i].cells[3].onclick = delete_todo;
+      todo_check_table.rows[i].cells[0].onclick = uncheck_todo;
+    }
+
+    // let todo_area =  document.getElementById("todo")
+    // todo_area.addEventListener('change',check_todo_area)
+    // todo_area.addEventListener('keyup',check_todo_area)
   });
 
-function delete_todo(e){
+function check_todo(e){
     console.log(e.target.id);
+    const postdata = new FormData();
+    postdata.append("check_id", e.target.id); 
+    fetch("/check", {
+      method: "POST",
+      body: postdata, // IDデータが入ったFormDataを送信
+    })
+
+    window.location.reload()
+}
+function uncheck_todo(e){
+    console.log(e.target.id);
+    const postdata = new FormData();
+    postdata.append("check_id", e.target.id); 
+    fetch("/uncheck", {
+      method: "POST",
+      body: postdata, // IDデータが入ったFormDataを送信
+    })
+
+    window.location.reload()
+}
+
+function delete_todo(e){
+    let res = confirm("本当に削除しますか？");
+    if( res == false ) return;
     const postdata = new FormData();
     postdata.append("delete_id", e.target.id); 
     fetch("/delete", {
@@ -138,12 +136,12 @@ const done_action = (ev) => {
 }
 
 
+
 document.querySelectorAll("input[id^=fav-]").forEach((elm) => {
     elm.addEventListener('change', done_action)
 })
 
 document.getElementById("add-submit").addEventListener("click", async (ev) => {
-    
     // ボタンイベントのキャンセル
     ev.preventDefault()
     console.log("addボタン押されたよ！！")
@@ -277,20 +275,17 @@ document.querySelectorAll("button[id^=edit-]").forEach((elm) => {
 //         return
 //     }
 
-    //追加時データが反映されなかったからリロードさせた
-    // window.location.reload();
-
-    // data.forEach(elm => {
-    //     /* 
-    //     <tr id="todo_row_id-{{item[0]}}">
-    //         <th>{{item[0]}}</th>
-    //         <th>{{item[1]}}</th>
-    //         <th>{{item[2]}}</th>
-    //         <th>{{item[3]}}</th>
-    //         <th>{{item[4]}}</th>
-    //         <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
-    //     </tr>
-    //     */
+//     data.forEach(elm => {
+        /* 
+        <tr id="todo_row_id-{{item[0]}}">
+            <th>{{item[0]}}</th>
+            <th>{{item[1]}}</th>
+            <th>{{item[2]}}</th>
+            <th>{{item[3]}}</th>
+            <th>{{item[4]}}</th>
+            <th><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></th>
+        </tr>
+        */
 
     //     let tr = document.createElement('tr')
     //     tr.id = `todo_row_id-${elm[0]}`
@@ -358,5 +353,4 @@ document.querySelectorAll("button[id^=edit-]").forEach((elm) => {
     //     tableBody.appendChild(tr)
     // })
     
-//(予定を追加するとcssとjsが適用されない不具合を修正しました．)
-}
+//}

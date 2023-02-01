@@ -12,16 +12,15 @@
 
     <script defer src="{{ url_for('static', filename='todo.js') }}"></script>
 </head>
-<body background="https://cdn.discordapp.com/attachments/1058362475877240974/1068082655524044850/konstantin-kleine-V1NVvXmO_dk-unsplash.jpg”%3E%22%3E">
+<body style="background-color: rgb(188, 242, 245);">
     <header>
-        <img src="https://images.goodsmile.info/cgm/images/product/20210513/11189/84603/large/1c62c769931f85ed2b8f24df5ade7969.jpg" alt="✅" id="logomark">
-        <img src="../img/logo/ver02.svg" alt="✅" id="logoword">
-
+        <img src="/static/img/logo/ver01.svg" alt="✅" id="logomark"/>
+        <img src="/static/img/logo/ver02.svg" alt="✅" id="logoword">
     </header>
     <!--<form id="schedule" action='/register_done'>-->
     <form id="schedule" action='/register_done'></form>
         <div>
-            <input type="text" id="todo" placeholder="予定を入力" name="todo" class="schedule" maxlength="30">
+            <input type="text" id="todo" placeholder="予定を入力" name="todo" maxlength="30">
         </div>
         <div>
             <input type="datetime-local" id="limit" name="time">
@@ -30,42 +29,55 @@
             <button type="submit" id="add-submit" formmethod="get">追加</button>
         </div>
     </form>
-    <p id="alert_area" style="display: none; color: red">うんち漏れた</p>
-
-    <p id="alert_area" style="display:none; color:red">30文字より多く入力する事はできません。</p>
+    <p id="alert_area" style="display: none; color: red">30文字より多く入力する事はできません</p>
 
     <div id="message-container" role="alert" style="display: none;"></div>
             <div id="error-container" role="alert" style="display: none;"></div>
             <h2>{{ result_message }}</h2>
 
-    <div>
+            <h1 id="incomplete_schedule">完了していない予定</h1>
+    <div id="no_check">
         <table id="todo_table">
-            
+                
                 {% for item in data %}
-                
-                <tr id="oboro">
-                    <td><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></td>
-                    <td>{{item[1]}}</td>
-                    <td>{{item[2]}}</td>
-                    <td><button type="button" id="{{item[0]}}" >削 除</button></td>
-                    <td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>
-                </tr>
-
-                <!-- {% set count = count + 1 %}
                     <tr id="todo_row_id-{{item[0]}}" class="todo_row_id">
+                        <td>
+                            <input type="checkbox" id="{{item[0]}}" />
+                        </td>
                         <td id="yotei">{{item[1]}}</td>
-                        <!<td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>-->
-                        <td id="kigen"><img id="limit" src="/static/img/other/limit.svg" alt="limit.svg">{{item[2]}}</td>
-                        <td id="kanryou">{{item[4]}}</td>
-                        <td><input type="checkbox" id="fav-{{item[0]}}" name="fav-{{item[0]}}" value="{{item[0]}}"></td> -->
                         <!--<td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>-->
-                    <!-- </tr> -->
-               
+                        <td id="kigen"><img id="limit_image" src="/static/img/other/limit.svg" alt="limit.svg">{{item[2]}}</td>
+                        
+                        <td><a href="" id={{item[0]}} class="delete_button">削除</a></td>
+                        <!--<td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>-->
+                    </tr> 
+                    {% else %}
+                    <h1 id="strcolor">完了していない予定はありません。</h1>            
+                {% endfor %}
+        </table>
+    </div>
+    <h1 id="checked_schedule">完了した予定</h1>
+    <div id="checked">
+        <table id="todo_check_table">
                 
-<!-- (編集機能（TODOのところだけ）つけました！) -->
+                {% for item in check_data %}
+                    <tr id="todo_row_id-{{item[0]}}" class="todo_row_id">
+                        <td>
+                            <input type="checkbox" id="{{item[0]}}" />
+                        </td>
+                        <td id="yotei">{{item[1]}}</td>
+                        <!--<td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>-->
+                        <td id="kigen"><img id="limit_image" src="/static/img/other/limit.svg" alt="limit.svg">{{item[2]}}</td>
+                        
+                        <td><a href="" id={{item[0]}} class="delete_button">削除</a></td>
+                        <!--<td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>-->
+                    </tr>  
+                    {% else %}
+            <h1 id="strcolor">完了した予定はありません。</h1>                 
                 {% endfor %}
         </table>
     </div>
 </body>
 </html>
+
 

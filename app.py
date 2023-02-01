@@ -2,12 +2,8 @@
 import sqlite3
 from flask import Flask, render_template, request, g, jsonify
 import datetime
-import menubar
 
 app = Flask(__name__, static_url_path='/static')
-
-
-a = menubar.MenuBar
 
 
 @app.route('/')
@@ -16,49 +12,35 @@ def todo_db():
     con = sqlite3.connect('todo_list.db')
     # ２．テーブル作成
     con.execute(
-        "CREATE TABLE IF NOT EXISTS todo(id integer PRIMARY KEY AUTOINCREMENT, todo_data text, todo_deadline datetime,check_data boolean)")
+        "CREATE TABLE IF NOT EXISTS todo(id integer PRIMARY KEY , todo_data text, todo_deadline datetime, check_data integer DEFAULT 0)")
     con.commit()
-    # 3．データ参照
-    cur = con.execute("SELECT * FROM todo")
-    # 4. データを締切の近い順に並び替え
-    cur = con.execute("select * from todo order by todo_deadline")
 
+    # cur = con.execute("select * from todo order by todo_deadline")
+    cur = con.execute(
+        "select * from todo where check_data = '0' order by todo_deadline")
     data = cur.fetchall()
     cur.close()
 
-    return render_template('index.html', data=data)
+    cur2 = con.execute(
+        "select * from todo where check_data = '1' order by todo_deadline")
+    check_data = cur2.fetchall()
+    cur2.close()
 
-
-@app.route('/register_done', methods=['POST'])
-def register_done2():
-
-   # htmlで入力したデータの取得
-    add_id = request.form.get('todo', None)
-    print(add_id)
-
-    # return jsonify(data = data)
-
-    return render_template('index.html', data=data)
+    return render_template('index.html', data=data, check_data=check_data)
 
 
 @app.route('/add_todo', methods=['POST'])
 def add_todo():
 
-    # javascriptでフェッチして得たデータの取得
     add_todo = request.form.get('todo', None)
     # 上記と同じくadd_limitに格納
     add_limit = request.form.get('limit', None)
-    print(add_limit)
-
+    check_todo = 1
     limit_str = add_limit.replace("T", " ")
-    # str = '2021-05-01 17:10:45'
-    dte = datetime.datetime.strptime(limit_str, '%Y-%m-%d %H:%M')
-    # str = '2021-05-01 17:10:45'
-
     con = sqlite3.connect('todo_list.db')
     # データベースにデータを追加
-    con.execute("INSERT INTO todo(todo_data, todo_deadline)values(?,?)", [
-                add_todo, add_limit])
+    con.execute("INSERT INTO todo(todo_data, todo_deadline, check_data)values(?,?,?)", [
+                add_todo, limit_str, 0])
     con.commit()
     cur = con.execute("SELECT * FROM todo")
     cur = con.execute("select * from todo order by todo_deadline")
@@ -67,66 +49,82 @@ def add_todo():
     # return render_template('index.html', data = data)
     return jsonify({'result': 'ok', 'message': '追加のタスクを完了しました。', 'data': data})
 
-    # if not add_todo:
-    #     # checked_idがない場合はエラーを返す
-    #     return jsonify({'result': 'error', 'message': 'データが正しく受け取れませんでした'})     # JSON形式でエラーである旨をJSに返す
-    # else:
+#     #     add_id = 0
 
-    #     # TODOの追加内容をデータベースに反映
-    #     con = sqlite3.connect('todo_list.db')
-    #     cur = con.cursor()
+#     #    # javascriptでフェッチして得たデータの取得
+#     #     add_todo = request.form.get('todo', None)
+#     #     print(add_todo)
+#     #     if len(add_todo) > 30:
+#     #         return jsonify({'result': 'error', 'message': '⚠️予定の文字数は30字以内でお願いします'})
 
-    #     try:
-    #         # データベース内に内容の追加
-    #         #cur.execute('''
-    #         #    update todo
-    #         #    set id = ?
-    #         #    set todo_data = ?
-    #         #    set limit = ?
-    #         #    set check_data = false
-    #         #''',(add_id+1, add_todo, add_limit))
-    #         # データ追加(レコード登録)
-    #         sql = 'insert into todo (id, todo_data, todo_deadline, check_data) values (?,?,?,?)'
-    #         add_data = (add_id, add_todo, dte, False)
-    #         con.execute(sql, add_data)
+#      add_limit = request.form.get('limit', None)
+#     # print(add_limit)
 
-    #     except sqlite3.Error as e:
-    #         print("error",e.args[0])
-    #         return jsonify({'result': 'db_error', 'message': e.args[0] })
+#     # limit_str = add_limit.replace("T", " ")
+#     # # str = '2021-05-01 17:10:45'
 
-    #     # 変更をコミット(これをやらないと反映されません)
-    #     con.commit()
-    #     # 接続を閉じる
-    #     #con.close()
-    # try:
-    #     # データベース内に内容の追加
-    #     #cur.execute('''
-    #     #    update todo
-    #     #    set id = ?
-    #     #    set todo_data = ?
-    #     #    set limit = ?
-    #     #    set check_data = false
-    #     #''',(add_id+1, add_todo, add_limit))
-    #     # データ追加(レコード登録)
-    #     sql = 'insert into todo (id, todo_data, todo_deadline, check_data) values (?,?,?,?)'
-    #     add_data = (add_id, add_todo, limit_str, False)
-    #     con.execute(sql, add_data)
+#      con = sqlite3.connect('todo_list.db')
 
-    #     cur = con.execute("SELECT * FROM todo")
-    #     for row in cur:
-    #         print(row)
-    #         print(type(row))
+#     cur = con.execute("SELECT * FROM todo")
 
-    #     cur = con.execute("select * from todo where check_data <> 1 order by todo_deadline")
-    #     data = cur.fetchall()
-    #     cur.close()
+#     for row in cur:
+#         print(row)
+#         print(type(row))
+#         print(row[0])
+#         add_id = row[0]
+#     cur.close()
 
-    #     # 6．テーブル削除
-    #     ##con.execute("DROP TABLE todo")
-    #     # 7．DB接続解除
+#     add_id += 1
 
-    #     #return render_template('index.html', data = data)
-    #     return jsonify({'result': 'ok', 'message': '追加のタスクを完了しました。', 'data': data})
+#     if not add_todo:
+#         # checked_idがない場合はエラーを返す
+#         # JSON形式でエラーである旨をJSに返す
+#         return jsonify({'result': 'error', 'message': 'データが正しく受け取れませんでした'})
+#     else:
+
+#         # TODOの追加内容をデータベースに反映
+#         con = sqlite3.connect('todo_list.db')
+#         cur = con.cursor()
+
+#         try:
+#             # データベース内に内容の追加
+#             # cur.execute('''
+#             #    update todo
+#             #    set id = ?
+#             #    set todo_data = ?
+#             #    set limit = ?
+#             #    set check_data = false
+#             # ''',(add_id+1, add_todo, add_limit))
+#             # データ追加(レコード登録)
+#             sql = 'insert into todo (id, todo_data, todo_deadline, check_data) values (?,?,?,?)'
+#             add_data = (add_id, add_todo, limit_str, False)
+#             con.execute(sql, add_data)
+
+#         except sqlite3.Error as e:
+#             print("error", e.args[0])
+#             return jsonify({'result': 'db_error', 'message': e.args[0]})
+
+#         # 変更をコミット(これをやらないと反映されません)
+#         con.commit()
+#         # 接続を閉じる
+#         # con.close()
+
+#         cur = con.execute("SELECT * FROM todo")
+#         for row in cur:
+#             print(row)
+#             print(type(row))
+
+#         cur = con.execute(
+#             "select * from todo where check_data <> 1 order by todo_deadline")
+#         data = cur.fetchall()
+#         cur.close()
+
+#         # 6．テーブル削除
+#         # con.execute("DROP TABLE todo")
+#         # 7．DB接続解除
+
+#         # return render_template('index.html', data = data)
+#         return jsonify({'result': 'ok', 'message': '追加のタスクを完了しました。', 'data': data})
 
 
 # checkが押されている項目の削除
@@ -168,14 +166,6 @@ def register_done():
     return jsonify({'result': 'ok', 'message': f'{ checked_id }のタスクを完了しました。'})
 
 
-@app.route("/delete", methods=["POST"])
-def delete():
-    delete_id = request.form.get('delete_id', None)
-    con = sqlite3.connect('todo_list.db')
-    con.execute("DELETE FROM todo WHERE id = ?", [delete_id])
-    con.commit()
-
-
 @app.route('/edit_todo', methods=['POST'])
 def edit_todo():
 
@@ -206,26 +196,6 @@ def edit_todo():
             return jsonify({'result': 'db_error', 'message': e.args[0]})
 
         # 変更をコミット(これをやらないと反映されません)
-# con.commit()
-#     # JSON形式でエラーである旨をJSに返す
-
-# cur = con.execute("select * from todo where check_data <> 1 order by todo_deadline")
-# data = cur.fetchall()
-# print(data)
-#             #con.close()
-# cur.close()
-#     #return jsonify({'result': 'error', 'message': 'pythonにデータが正しく受け取れました。'})
-#         # エラーなく登録できたら正常終了のメッセージを返します
-# return jsonify({'result': 'ok', 'message': f'{ e_id }のタスクを完了しました。' }, data = data)
-
-
-#         cur = con.execute("select * from todo where check_data <> 1 order by todo_deadline")
-#         data = cur.fetchall()
-#         cur.close()
-#     #return jsonify({'result': 'error', 'message': 'pythonにデータが正しく受け取れました。'})
-#         # エラーなく登録できたら正常終了のメッセージを返します
-#         return jsonify({'result': 'ok', 'message': f'{ e_id }のタスクを完了しました。' }, data = data)
-
         con.commit()
     # JSON形式でエラーである旨をJSに返す
 
@@ -248,7 +218,22 @@ def delete():
     con.commit()
 
 
+@app.route("/check", methods=["POST"])
+def check():
+    check_id = request.form.get('check_id', None)
+    con = sqlite3.connect('todo_list.db')
+    con.execute("UPDATE todo SET check_data = 1 WHERE id = ?", [check_id])
+    con.commit()
+
+
+@app.route("/uncheck", methods=["POST"])
+def uncheck():
+    check_id = request.form.get('check_id', None)
+    con = sqlite3.connect('todo_list.db')
+    con.execute("UPDATE todo SET check_data = 0 WHERE id = ?", [check_id])
+    con.commit()
+
+
 if __name__ == '__main__':
     app.debug = True
-    app = menubar.MenuBar()
     app.run()
