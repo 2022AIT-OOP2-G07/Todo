@@ -63,6 +63,40 @@ function delete_todo(e){
     //});
 //});
 
+window.addEventListener('load', function(){
+    let  todo_table = document.getElementById("todo_table");
+    for (let i=0; i < todo_table.rows.length; i++) {
+      todo_table.rows[i].cells[2].onclick = delete_todo;
+    }
+    let todo_area =  document.getElementById("todo")
+    todo_area.addEventListener('change',check_todo_area)
+    todo_area.addEventListener('keyup',check_todo_area)
+  });
+
+function delete_todo(e){
+    console.log(e.target.id);
+    const postdata = new FormData();
+    postdata.append("delete_id", e.target.id); 
+    fetch("/delete", {
+      method: "POST",
+      body: postdata, // IDデータが入ったFormDataを送信
+    })
+
+    window.location.reload()
+  }
+  
+function check_todo_area(){
+    console.log(document.getElementById("todo").value.length)
+    //半角だと30文字文字より多く文字を入力する事はできないが全角だと30文字を超えるが、enter押下時30文字に表示される
+    if(document.getElementById("todo").value.length == 30){
+        document.getElementById("alert_area").style.display = "block"
+        console.log("unko_time")
+    }
+    else{
+        document.getElementById("alert_area").style.display = "none"
+    }
+}
+
 const done_action = (ev) => {
     console.log(ev)
     elm = ev.srcElement // チェックボックスをeventから再取得
@@ -170,10 +204,8 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
             } else {
                 // タスクを完了できたら、チェックされた行を消す
                 window.alert(data.message)
+                window.location.reload()
 
-
-                // data を再表示
-                show_data(data.data)
             }
         })
         
@@ -219,35 +251,34 @@ document.querySelectorAll("button[id^=edit-]").forEach((elm) => {
                     // タスクを完了できたら、チェックされた行を消す
                     window.alert(data.message)
 
-
-                    // data を再表示
-                    show_data(data.data)
-
                 }
             })
             
         })
 
+        window.location.reload()
+
         //window.location = "http://127.0.0.1:5000/edit.html";
     })
 })
 
-// データ表示を関数化
-const show_data = (data) => {
-    // データを表示させる
-    const tableBody = document.querySelector("#todo_table > tbody")
-    tableBody.innerHTML = ""
 
-    // レスポンスのJSONデータの件数が0だった場合
-    if (data && data.length == 0) {
-        let tr = document.createElement('tr')
-        tr.innerHTML = "表示するデータがありません。"
-        tableBody.appendChild(tr)
-        return
-    }
+// データ表示を関数化
+// const show_data = (data) => {
+//     // データを表示させる
+//     const tableBody = document.querySelector("#todo_table > tbody")
+//     tableBody.innerHTML = ""
+
+//     // レスポンスのJSONデータの件数が0だった場合
+//     if (data && data.length == 0) {
+//         let tr = document.createElement('tr')
+//         tr.innerHTML = "表示するデータがありません。"
+//         tableBody.appendChild(tr)
+//         return
+//     }
 
     //追加時データが反映されなかったからリロードさせた
-    window.location.reload();
+    // window.location.reload();
 
     // data.forEach(elm => {
     //     /* 

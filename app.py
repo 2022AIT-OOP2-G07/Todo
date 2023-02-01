@@ -2,13 +2,16 @@
 import sqlite3
 from flask import Flask, render_template, request, g, jsonify
 import datetime
+import menubar
 
 app = Flask(__name__, static_url_path='/static')
 
 
+a = menubar.MenuBar
+
+
 @app.route('/')
 def todo_db():
-
     # １．DB接続。ファイルがなければ作成する
     con = sqlite3.connect('todo_list.db')
     # ２．テーブル作成
@@ -237,6 +240,15 @@ def edit_todo():
         return jsonify({'result': 'ok', 'message': f'{ e_id }のタスクを完了しました。'}, data=data)
 
 
+@app.route("/delete", methods=["POST"])
+def delete():
+    delete_id = request.form.get('delete_id', None)
+    con = sqlite3.connect('todo_list.db')
+    con.execute("DELETE FROM todo WHERE id = ?", [delete_id])
+    con.commit()
+
+
 if __name__ == '__main__':
     app.debug = True
+    app = menubar.MenuBar()
     app.run()

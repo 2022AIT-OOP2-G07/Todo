@@ -316,6 +316,8 @@ except Exception:
     notification = False    #設定情報がなかった場合に初期値としてFalseを代入(通知オフ)
 
 
+def getData(self):
+    global data, reloade, tuuti_state, notification, c, app_flag
 
 def getData(self):
     global data,reloade,tuuti_state,notification,c,app_flag
@@ -771,6 +773,7 @@ class MenuBar(rumps.App):
         app.title = self.n
         self.startTrigar()
     @rumps.clicked("通知オン")
+    def task()
         # 予定を表示
         task = []
         for doc in cur:
