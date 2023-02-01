@@ -116,9 +116,9 @@ td > button {
 #incomplete_schedule {
   margin: 0;
 
-  text-shadow: 3px 8px 1px rgba(30, 30, 43, 0.213);
-
   color: black;
+
+  margin: 0;
 
   cursor: pointer;
 }
@@ -126,9 +126,9 @@ td > button {
 #complete_schedule {
   margin: 0;
 
-  text-shadow: 3px 8px 1px rgba(30, 30, 43, 0.213);
-
   color: black;
+
+  cursor: pointer;
 }
 
 .degree_90 {

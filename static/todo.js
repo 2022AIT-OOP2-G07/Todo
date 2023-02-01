@@ -64,12 +64,14 @@ async function uncheck_todo(e) {
   window.location.reload();
 }
 
-function delete_todo(e) {
+async function delete_todo(e) {
   let res = confirm("本当に削除しますか？");
   if (res == false) return;
   const postdata = new FormData();
   postdata.append("delete_id", e.target.id);
-  fetch("/delete", {
+  //pythonの処理が全て完了してから window.location.reload()
+  //が行われるようにした
+  await fetch("/delete", {
     method: "POST",
     body: postdata, // IDデータが入ったFormDataを送信
   });
