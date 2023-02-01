@@ -144,8 +144,8 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
 
   // 未入力がある項目ごとにエラーメッセージを積み上げる
   let error_message = "";
-  if (!todo) error_message += "予定が未入力です。<br>";
-  if (!limit) error_message += "期限が未入力です。<br>";
+  if (!todo) error_message += "予定が未入力です。予定を入力してください。<br>";
+  if (!limit) error_message += "期限が未入力です。期限を入力してください。<br>";
 
   // エラーメッセージがあるかどうかでエラーの表示有無を決定
   if (error_message !== "") {
