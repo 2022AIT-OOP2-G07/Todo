@@ -77,7 +77,7 @@ function delete_todo(e) {
   window.location.reload();
 }
 
-function check_todo_area() {
+/**function check_todo_area() {
   console.log(document.getElementById("todo").value.length);
   //半角だと30文字文字より多く文字を入力する事はできないが全角だと30文字を超えるが、enter押下時30文字に表示される
   if (document.getElementById("todo").value.length >= 30) {
@@ -85,7 +85,7 @@ function check_todo_area() {
   } else {
     document.getElementById("alert_area").style.display = "none";
   }
-}
+}**/
 
 const done_action = (ev) => {
   console.log(ev);
