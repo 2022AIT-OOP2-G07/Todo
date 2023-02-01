@@ -203,7 +203,7 @@ def edit_todo():
             "select * from todo where check_data <> 1 order by todo_deadline")
         data = cur.fetchall()
         print(data)
-        # con.close()
+        
         cur.close()
     # return jsonify({'result': 'error', 'message': 'pythonにデータが正しく受け取れました。'})
         # エラーなく登録できたら正常終了のメッセージを返します
