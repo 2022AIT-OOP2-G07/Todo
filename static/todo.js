@@ -42,9 +42,9 @@ window.addEventListener('load', function(){
       todo_check_table.rows[i].cells[0].onclick = uncheck_todo;
     }
 
-    // let todo_area =  document.getElementById("todo")
-    // todo_area.addEventListener('change',check_todo_area)
-    // todo_area.addEventListener('keyup',check_todo_area)
+    let todo_area =  document.getElementById("todo")
+    //todo_area.addEventListener('change',check_todo_area)
+    todo_area.addEventListener('keyup',check_todo_area)
   });
 
 function check_todo(e){
@@ -86,7 +86,7 @@ function delete_todo(e){
 function check_todo_area(){
     console.log(document.getElementById("todo").value.length)
     //半角だと30文字文字より多く文字を入力する事はできないが全角だと30文字を超えるが、enter押下時30文字に表示される
-    if(document.getElementById("todo").value.length == 30){
+    if(document.getElementById("todo").value.length >= 30){
         document.getElementById("alert_area").style.display = "block"
         console.log("unko_time")
     }
