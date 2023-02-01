@@ -1,192 +1,211 @@
 img#logomark {
-    width: 50px;
-    height: 50px;
-
+  width: 50px;
+  height: 50px;
 }
 
-img#logoword{
-    margin-left: 20px;
-    width: 200px;
-    height: 50px;
+img#logoword {
+  margin-left: 20px;
+  width: 200px;
+  height: 50px;
 }
 
-header{
-    border-bottom:1px solid #B1B3B6;
-    margin-bottom: 50px;
+header {
+  border-bottom: 1px solid #b1b3b6;
+  margin-bottom: 50px;
 }
 
 h1 {
-    font-size: 40px;
-    color: #f2f2f2;
+  font-size: 40px;
+  color: #f2f2f2;
 }
 
 form {
-    background-color: #fff;
-    
+  background-color: #fff;
 }
 
 #todo {
-    width: 300px;
-    height: 80px;
-    font-size: 20px;
-    margin-left: 20px;
-    border: 2px solid #F8F8FC;
-    background-color: #F8F8FC;
-    border-radius: 0.67em;
-    box-shadow: -4px 0px 15px 0px #28252d;
-    float: left;
+  width: 300px;
+  height: 80px;
+  font-size: 20px;
+  margin-left: 20px;
+  border: 2px solid #f8f8fc;
+  background-color: #f8f8fc;
+  border-radius: 0.67em;
+  box-shadow: -4px 0px 15px 0px #28252d;
+  float: left;
 }
 #todo:focus {
-    border: 1px solid #00bcad;
-    outline: 0;
+  border: 1px solid #00bcad;
+  outline: 0;
 }
 
-input#limit{
-    margin-top: 20px;
-    margin-left: 10px;
-    margin-bottom: 10px;
-    border: 2px solid #F8F8FC;
-    background-color: #F8F8FC;
-    border-radius: 0.67em;
-    box-shadow: -4px 0px 15px 0px #28252d;
-    padding: 10px;
+input#limit {
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #f8f8fc;
+  background-color: #f8f8fc;
+  border-radius: 0.67em;
+  box-shadow: -4px 0px 15px 0px #28252d;
+  padding: 10px;
 }
 input#limit[type="datetime-local"]:focus {
-    border: 1px solid #00bcad;
-    outline: 0;
+  border: 1px solid #00bcad;
+  outline: 0;
 }
 
-button#add-submit{
-    margin-left: 10px;
-    width: 80px;
-    height: 30px;
-    color: #fff;
-    background-color: #000;
-    border: 2px solid #000;
-    border-radius: 0.67em;
+button#add-submit {
+  margin-left: 10px;
+  width: 80px;
+  height: 30px;
+  color: #fff;
+  background-color: #000;
+  border: 2px solid #000;
+  border-radius: 0.67em;
 }
-button#add-submit:hover{
-    background-color: #00bcad;
-    border: 2px solid #00bcad;
-}
-
-div#message-container{
-    clear: left;
+button#add-submit:hover {
+  background-color: #00bcad;
+  border: 2px solid #00bcad;
 }
 
-.delete_button{
-    background-color: red;
-    width: 20px;
-    height: 20px;
-}
-td > button{
-    background-color: red;
-    color: white;
+div#message-container {
+  clear: left;
 }
 
-input[type="checkbox"]{
-    color: #00bcad;
+.delete_button {
+  background-color: red;
+  width: 20px;
+  height: 20px;
+}
+td > button {
+  background-color: red;
+  color: white;
 }
 
-#todo_table{
-    width: 100%;
+#todo_table {
+  width: 100%;
 }
 
-#todo_table tr{
-    background-color: #65eec0;
+#todo_table tr {
+  background-color: #e8ecf3;
 }
 
-#todo_check_table{
-    margin-top: 0px;
-    width: 100%;
+#todo_check_table {
+  margin-top: 0px;
+  width: 100%;
 }
 
-#todo_check_table tr{
-    background-color: #c4d7f6;
+#todo_check_table tr {
+  background-color: #e8ecf3;
 }
 
-#strcolor{
-    color: rgb(242, 157, 83);
+#strcolor {
+  color: rgb(242, 157, 83);
 }
 
-#incomplete_schedule{
-    margin: 0;
-
-    text-shadow: 3px 8px 1px rgba(30, 30, 43, 0.213);
-   
-    color: black;
+#incomp_img {
+  width: 40px;
+  height: 40px;
 }
 
-#checked_schedule{
+#comp_img {
+  width: 40px;
+  height: 40px;
+}
 
-    margin: 0;
+#incomplete_schedule {
+  margin: 0;
 
-    text-shadow: 3px 8px 1px rgba(30, 30, 43, 0.213);
-   
-    color: black;
-} */
+  text-shadow: 3px 8px 1px rgba(30, 30, 43, 0.213);
+
+  color: black;
+
+  cursor: pointer;
+}
+
+#complete_schedule {
+  margin: 0;
+
+  text-shadow: 3px 8px 1px rgba(30, 30, 43, 0.213);
+
+  color: black;
+}
+
+.degree_90 {
+  transform: rotate(90deg);
+}
 
 a.delete_button {
-    color: white;
-  }
+  color: white;
+}
 
-  a.delete_button:hover{
-    color: red;
-  }
+a.delete_button:hover {
+  color: red;
+}
 
-td{
-    padding : 10px !important;
-    margin: 10px;
-    vertical-align: middle;
-  }
+td {
+  padding: 10px !important;
+  margin: 10px;
+  vertical-align: middle;
+}
 
-  .schedule{
-    box-shadow: -4px 0px 15px 0px #28252d;
-    border-radius: 10px;
-  }
+.schedule {
+  box-shadow: -4px 0px 15px 0px #28252d;
+  border-radius: 10px;
+}
 
-  #add-submit{
-    box-shadow: 2px 7px 10px -2px #313796;
-    border-radius: 100px;
-    transition:0.3s;
-    cursor: pointer;
-  }
+#add-submit {
+  box-shadow: 2px 7px 10px -2px #313796;
+  border-radius: 100px;
+  transition: 0.3s;
+  cursor: pointer;
+}
 
-  #add-submit:hover{
-    box-shadow: none;
-    transform: translateY(7px);
-  }
+#add-submit:hover {
+  box-shadow: none;
+  transform: translateY(7px);
+}
 
-  #limit_image{
-    width: 30px;
-    height: 30px;
-  }
+#limit_image {
+  width: 30px;
+  height: 30px;
+}
 
-  .delete_button{
-    background: transparent;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-  }
+.delete_button {
+  background: transparent;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
 
-  .width10{
-    width: 100px;
-  }
+.width10 {
+  width: 100px;
+}
 
-  .width40{
-    width: 600px;
-  }
+.width40 {
+  width: 600px;
+}
 
-  #no_check{
-    margin: 20px;
-    margin-top: 0;
-  }
+#no_check {
+  margin: 20px;
+  margin-top: 0;
+  display: block;
+}
 
-  #checked{
-    margin: 20px;
-    margin-top: 0px;
-  }
+#no_check.toggle {
+  display: none;
+}
 
-*{
-    font-family:"ヒラギノ丸ゴ Pro W4","ヒラギノ丸ゴ Pro","Hiragino Maru Gothic Pro";
+#checked.toggle {
+  display: none;
+}
+
+#checked {
+  margin: 20px;
+  margin-top: 0px;
+}
+
+* {
+  font-family: "ヒラギノ丸ゴ Pro W4", "ヒラギノ丸ゴ Pro",
+    "Hiragino Maru Gothic Pro";
 }
