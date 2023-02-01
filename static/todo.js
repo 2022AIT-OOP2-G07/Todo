@@ -201,7 +201,7 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
                 window.alert(data.message) // エラー表示
             } else {
                 // タスクを完了できたら、チェックされた行を消す
-                window.alert(data.message)
+                //window.alert(data.message)
                 window.location.reload()
 
             }
