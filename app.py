@@ -205,7 +205,7 @@ def edit_todo():
         print(data)
         
         cur.close()
-    # return jsonify({'result': 'error', 'message': 'pythonにデータが正しく受け取れました。'})
+    
         # エラーなく登録できたら正常終了のメッセージを返します
         return jsonify({'result': 'ok', 'message': f'{ e_id }のタスクを完了しました。'}, data=data)
 
