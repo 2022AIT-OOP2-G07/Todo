@@ -34,10 +34,15 @@ def add_todo():
 
     add_todo = request.form.get('todo', None)
     # 上記と同じくadd_limitに格納
+    if len(add_todo) > 30:
+        return jsonify({'result': 'ng', 'message': '文字数は30文字以内でお願いします。'})
+
+
     add_limit = request.form.get('limit', None)
     check_todo = 1
     limit_str = add_limit.replace("T", " ")
     con = sqlite3.connect('todo_list.db')
+    
     # データベースにデータを追加
     con.execute("INSERT INTO todo(todo_data, todo_deadline, check_data)values(?,?,?)", [
                 add_todo, limit_str, 0])
