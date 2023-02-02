@@ -28,11 +28,12 @@ form {
   height: 80px;
   font-size: 20px;
   margin-left: 20px;
-  border: 2px solid #f8f8fc;
-  background-color: #f8f8fc;
+  border: 2px solid #efefef;
+  background-color: #efefef;
   border-radius: 0.67em;
   box-shadow: -4px 0px 15px 0px #28252d;
   float: left;
+  box-shadow:none;
 }
 #todo:focus {
   border: 1px solid #00bcad;
@@ -40,14 +41,15 @@ form {
 }
 
 input#limit {
-  margin-top: 20px;
+  margin-top: 5px;
   margin-left: 10px;
   margin-bottom: 10px;
-  border: 2px solid #f8f8fc;
-  background-color: #f8f8fc;
+  border: 2px solid #efefef;
+  background-color: #efefef;
   border-radius: 0.67em;
   box-shadow: -4px 0px 15px 0px #28252d;
   padding: 10px;
+  box-shadow:none;
 }
 input#limit[type="datetime-local"]:focus {
   border: 1px solid #00bcad;
@@ -62,6 +64,7 @@ button#add-submit {
   background-color: #000;
   border: 2px solid #000;
   border-radius: 0.67em;
+  box-shadow:none;
 }
 button#add-submit:hover {
   background-color: #00bcad;
@@ -107,7 +110,7 @@ td > button {
 }
 
 #todo_table tr {
-  background-color: #e8ecf3;
+  background-color: #efefef;
 }
 
 #todo_check_table {
@@ -117,7 +120,7 @@ td > button {
 }
 
 #todo_check_table tr {
-  background-color: #e8ecf3;
+  background-color: #efefef;
 }
 
 #strcolor {
@@ -125,14 +128,14 @@ td > button {
 }
 
 #incomp_img {
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
 }
 
 #comp_img {
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
 }
 
@@ -142,12 +145,17 @@ td > button {
   color: black;
 
   margin: 0;
+  font-weight:100;
 }
 
 #complete_schedule {
   margin: 0;
 
   color: black;
+  font-weight:100;
+}
+#yotei{
+  text-align: left
 }
 
 .degree_90 {
