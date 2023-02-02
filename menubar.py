@@ -6,9 +6,10 @@
 
 import datetime
 import json
-import rumps
+from rumps import *
 import sqlite3
 import sys
+import webbrowser
 
 
 c = 0
@@ -55,6 +56,9 @@ def getData(self):
         print("------------------------------------------------------")
         print("⭐️データが更新されました⭐️")
         print("------------------------------------------------------")
+
+        print("再起動してください")
+
         tuuti_state = False
         data = z
         hyouzi = check_menubar()
@@ -272,10 +276,51 @@ def tuuti(todo):  # 通知メソッド
     )
 
 
+def delete_task(Num):  # 予定の削除
+    con = sqlite3.connect('todo_list.db')  # データベースに接続
+    # cur = con.execute(
+    #     "select * from todo where todo_deadline <> 1 order by todo_deadline")
+    cur = con.execute('delete from todo where id = ?', (Num,))
+    con.commit()
+    cur.close()
+    con.close()
+
+
+def menubar(self):
+    con = sqlite3.connect('todo_list.db')  # データベースに接続
+    cur = con.execute(
+        "select * from todo where todo_deadline <> 1 order by todo_deadline")
+    # MenuItem.clear
+    for doc in cur:
+        # task.append(doc[0])
+        # print(doc)
+        if doc[3] != None:
+            self.menu = MenuItem(doc[1], clicked)
+        # self.menu[doc[1]].add(
+        #     MenuItem("削除", clicked))
+        # MenuItem.clear(self.menu)
+    self.menu = [
+        None
+    ]
+    cur.close()
+    con.close()
+
+#     def delete_task(Num):  # 予定の削除
+#         con = sqlite3.connect('todo_list.db')  # データベースに接続
+#         # cur = con.execute(
+#         #     "select * from todo where todo_deadline <> 1 order by todo_deadline")
+#         cur.execute('delete from todo where id = ?', (Num,))
+#         con.commit()
+#         cur.close()
+#         con.close()
+
+
 class MenuBar(rumps.App):
 
     def __init__(self):
         global data, notification, tuuti_state, app_flag
+
+        # self.menubar()
 
         getData(self)
         print("------------------------------------------------------")
@@ -292,6 +337,28 @@ class MenuBar(rumps.App):
         print("\n|\n|\n🟥チェック完了\n|\n|\nアプリ起動-no problem\n|\n|")
         app_flag = True
 
+        menubar(self)
+
+    # def menubar(self):
+    #     con = sqlite3.connect('todo_list.db')  # データベースに接続
+    #     cur = con.execute(
+    #         "select * from todo where todo_deadline <> 1 order by todo_deadline")
+    # # MenuItem.clear
+    #     for doc in cur:
+    #         # task.append(doc[0])
+    #         # print(doc)
+    #         self.menu = MenuItem(
+    #             doc[1], webbrowser.open("http://127.0.0.1:5000"))
+    #         # self.menu[doc[1]].add(
+    #         #     MenuItem("削除", webbrowser.open("http://127.0.0.1:5000")))
+    #         print("db=", doc[1])
+    #         # MenuItem.clear(self.menu)
+    #     self.menu = [
+    #         None
+    #     ]
+    #     cur.close()
+    #     con.close()
+
     @rumps.clicked("通知")
     def timer(self, _):
         global tuuti_state, notification
@@ -306,6 +373,18 @@ class MenuBar(rumps.App):
         notification = not notification
         print(f"アプリの通知設定[変更]：", '通知オン' if notification != False else '通知オフ')
         swich(self)
+
+    @ rumps.clicked("Webを開く")
+    def Web(self, _):
+        webbrowser.open("http://127.0.0.1:5000")
+
+    # 未完
+    # @ rumps.clicked('"MenuBar"を更新する')
+    # def update(self, _):
+    #     # con = sqlite3.connect('todo_list.db')
+    #     # del menubar(self)
+    #     self.menu = MenuItem("設定")
+    #     # menubar(self)
 
 
 if __name__ == "__main__":
