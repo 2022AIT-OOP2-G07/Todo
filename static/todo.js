@@ -19,7 +19,7 @@ window.addEventListener("load", function () {
   todo_area.addEventListener("keyup", check_todo_area);
 
   //完了していない予定での処理
-  let incomp_schedule = document.getElementById("incomplete_schedule");
+  let incomp_schedule = document.getElementById("incomp_img");
   incomp_schedule.addEventListener("click", () => {
     let no_check = document.getElementById("no_check");
     no_check.classList.toggle("toggle");
@@ -27,7 +27,7 @@ window.addEventListener("load", function () {
     incomp_img.classList.toggle("degree_90");
   });
   //完了した予定での処理
-  let comp_schedule = document.getElementById("complete_schedule");
+  let comp_schedule = document.getElementById("comp_img");
   comp_schedule.addEventListener("click", () => {
     let checked = document.getElementById("checked");
     checked.classList.toggle("toggle");
@@ -136,13 +136,10 @@ document.querySelectorAll("input[id^=fav-]").forEach((elm) => {
 document.getElementById("add-submit").addEventListener("click", async (ev) => {
   // ボタンイベントのキャンセル
   ev.preventDefault();
-  console.log("addボタン押されたよ！！");
 
   // 入力チェック
   let todo = document.getElementById("todo").value;
   let limit = document.getElementById("limit").value;
-  console.log(todo);
-  console.log(limit);
 
   // 未入力がある項目ごとにエラーメッセージを積み上げる
   let error_message = "";
@@ -158,6 +155,14 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
   } else {
     document.getElementById("error-container").innerHTML = "";
     document.getElementById("error-container").style.display = "none";
+  }
+
+  let todo_count = document.getElementById("todo_table").rows.length;
+  if (todo_count >= 5) {
+    document.getElementById("alert_data").style.display = "block";
+    return;
+  } else {
+    document.getElementById("alert_data").style.display = "none";
   }
 
   //main.pyにデータを渡す
