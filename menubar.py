@@ -388,6 +388,5 @@ class MenuBar(rumps.App):
 
 
 if __name__ == "__main__":
-
     app = MenuBar()
     app.run()
