@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do List</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+      </style>
 
     <script defer src="{{ url_for('static', filename='todo.js') }}"></script>
 </head>
@@ -30,25 +33,26 @@
         </div>
     </form>
     <p id="alert_area" style="display: none; color: red">30文字より多く入力する事はできません</p>
+    <p id="alert_data" style="display: none; color: red">これ以上データは入力できません。データを削除してください。</p>
 
     <div id="message-container" role="alert" style="display: none;"></div>
             <div id="error-container" role="alert" style="display: none;"></div>
             <h2>{{ result_message }}</h2>
 
-            <h1 id="incomplete_schedule"><img src="https://img1.kakaku.k-img.com/images/productimage/fullscale/K0000286516.jpg" id="incomp_img" class="degree_90"> 完了していない予定</h1>
+            <h2 id="incomplete_schedule"><img src="/static/img/button/accord.svg" id="incomp_img"> 未実装</h2>
     <div id="no_check">
         <table id="todo_table">
                 
                 {% for item in data %}
                     <tr id="todo_row_id-{{item[0]}}" class="todo_row_id">
-                        <td>
+                        <td class="width_1">
                             <input type="checkbox" id="{{item[0]}}" />
                         </td>
-                        <td id="yotei">{{item[1]}}</td>
+                        <td id="yotei" class="width_2">{{item[1]}}</td>
                         <!--<td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>-->
-                        <td id="kigen"><img id="limit_image" src="/static/img/other/limit.svg" alt="limit.svg">{{item[2]}}</td>
+                        <td id="kigen" class="width_3"><img id="limit_image" src="/static/img/other/limit.svg" alt="limit.svg"><div>{{item[2]}}</div></td>
                         
-                        <td><img src="/static/img/button/delete.svg" id={{item[0]}} class="delete_button"></td>
+                        <td  class="width_4"><img src="/static/img/button/delete.svg" id={{item[0]}} class="delete_button"></td>
                         <!--<td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>-->
                     </tr> 
                     {% else %}
@@ -56,20 +60,20 @@
                 {% endfor %}
         </table>
     </div>
-    <h1 id="complete_schedule"><img src="https://img1.kakaku.k-img.com/images/productimage/fullscale/K0000286516.jpg" id="comp_img" class="degree_90">完了した予定</h1>
+    <h2 id="complete_schedule"><img src="/static/img/button/accord.svg" id="comp_img">完了済</h2>
     <div id="checked">
         <table id="todo_check_table">
                 
                 {% for item in check_data %}
                     <tr id="todo_row_id-{{item[0]}}" class="todo_row_id">
-                        <td>
+                        <td class="width_1">
                             <input type="checkbox" id="{{item[0]}}" checked="checked" />
                         </td>
-                        <td id="yotei">{{item[1]}}</td>
+                        <td id="yotei" class="width_2">{{item[1]}} </td>
                         <!--<td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>-->
-                        <td id="kigen"><img id="limit_image" src="/static/img/other/limit.svg" alt="limit.svg">{{item[2]}}</td>
+                        <td id="kigen" class="width_3"><img id="limit_image" src="/static/img/other/limit.svg" alt="limit.svg">{{item[2]}}</td>
                         
-                        <td><img src="/static/img/button/delete.svg" id={{item[0]}} class="delete_button"></td>
+                        <td class="width_4"><img src="/static/img/button/delete.svg" id={{item[0]}} class="delete_button"></td>
                         <!--<td><button type="button" id="edit-{{item[0]}}", name="edit-{{item[0]}}", value="{{item[0]}}">編集</button></td>-->
                     </tr>  
                     {% else %}
