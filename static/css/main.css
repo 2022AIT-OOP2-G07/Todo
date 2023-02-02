@@ -125,6 +125,8 @@ td > button {
 
 #strcolor {
   color: rgb(242, 157, 83);
+  font-size: 30px;
+  font-weight: 100;
 }
 
 #incomp_img {
