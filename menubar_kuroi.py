@@ -282,9 +282,9 @@ def menubar(self):
         # task.append(doc[0])
         print(doc)
         self.menu = MenuItem(doc[1])
-
+        self.menu[doc[1]].add(
+            MenuItem("削除", clicked()))
         # MenuItem.clear(self.menu)
-        # MenuI
 
     self.menu = [
         None
@@ -292,6 +292,15 @@ def menubar(self):
 
     cur.close()
     con.close()
+
+    # def delete_task(self):  # 予定の削除
+    #     con = sqlite3.connect('todo_list.db')  # データベースに接続
+    #     cur = con.execute(
+    #         "select * from todo where todo_deadline <> 1 order by todo_deadline")
+    #     cur.execute('delete from todo where id = ?', (Num,))
+    #     con.commit()
+    #     cur.close()
+    #     con.close()
 
 
 class MenuBar(rumps.App):
@@ -313,6 +322,8 @@ class MenuBar(rumps.App):
                                       '×' if notification == False else hyouzi+'⚪︎', icon='static/img/icon/icon.png')
         print("\n|\n|\n🟥チェック完了\n|\n|\nアプリ起動-no problem\n|\n|")
         app_flag = True
+
+        menubar(self)
 
     @rumps.clicked("通知")
     def timer(self, _):
@@ -339,7 +350,7 @@ class MenuBar(rumps.App):
         # con = sqlite3.connect('todo_list.db')
         # del menubar(self)
         self.menu = MenuItem("設定")
-        menubar(self)
+        # menubar(self)
 
 
 if __name__ == "__main__":
