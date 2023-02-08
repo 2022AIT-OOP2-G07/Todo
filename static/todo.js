@@ -157,14 +157,6 @@ document.getElementById("add-submit").addEventListener("click", async (ev) => {
     document.getElementById("error-container").style.display = "none";
   }
 
-  let todo_count = document.getElementById("todo_table").rows.length;
-  if (todo_count >= 5) {
-    document.getElementById("alert_data").style.display = "block";
-    return;
-  } else {
-    document.getElementById("alert_data").style.display = "none";
-  }
-
   //main.pyにデータを渡す
   const param = new FormData();
   param.append("todo", todo);

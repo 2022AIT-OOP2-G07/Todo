@@ -55,12 +55,6 @@ def add_todo():
 # checkが押されている項目の削除
 @app.route('/register_done', methods=['POST'])
 def register_done():
-    con = sqlite3.connect('todo_list.db')
-    cur = con.cursor()
-    cur = con.execute("select count(*) from todo where check_data = 1")
-    if cur > 5:
-        return
-    
 
     # htmlで入力したデータの取得
     checked_id = request.form.get('checked_id', None)
